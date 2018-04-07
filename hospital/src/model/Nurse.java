@@ -19,7 +19,7 @@ public class Nurse extends Employee{
     {
         super();
         this.rotation = false;
-        this.dept = new Dept();
+        this.dept = new Department();
         this.wage = 0;
         
     }
