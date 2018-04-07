@@ -9,14 +9,17 @@ package model;
  *
  * @author romain
  */
-public class Employee extends Person {
+public class Doctor extends Employee{
+    
+    private final String specialty;
     
     /**
-     * @Default constructor
+     * @name Default constructor
      */
-    public Employee()
+    public Doctor()
     {
         super();
+        this.specialty = "";
     }
     
     /**
@@ -25,11 +28,13 @@ public class Employee extends Person {
      * @param name
      * @param surname
      * @param address
-     * @param phone 
+     * @param phone
+     * @param specialty 
      */
-    public Employee(int id, String name, String surname, String address, String phone)
+    public Doctor(int id, String name, String surname, String address, String phone, String specialty)
     {
         super(id,name,surname,address,phone);
+        this.specialty = specialty;
     }
     
 }
