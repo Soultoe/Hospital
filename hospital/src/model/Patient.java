@@ -37,4 +37,14 @@ public class Patient extends Person {
         this.socialSecurityNumber = socialSecurityNumber;
     }
     
+    public void treatedBy()
+    {
+        
+    }
+    
+    public void hospitalizedAt()
+    {
+        
+    }
+    
 }
