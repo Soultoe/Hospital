@@ -36,10 +36,16 @@ public class Hospital {
         String loginDatabase = "root";
         String passwordDatabase = "";   
                 
-        Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
-        
-        //pour l'instant je m'en sers juste pour lire le contenu de la table et tester bêtement que ça marche :)
-        System.out.println(con1.remplirChampsRequete("SELECT * from malade"));
+        try
+        {
+            Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
+            System.out.println(con1.remplirChampsRequete("SELECT * from malade"));
+
+        }
+        catch(Exception e)
+        {
+            System.out.println("LOCAL CONNEXION ERROR!");
+        }
     }
     
 }
