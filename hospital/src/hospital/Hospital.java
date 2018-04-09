@@ -34,11 +34,12 @@ public class Hospital {
         try
         {
             //distant
-            Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
+            //Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
             
             //local
-            //Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
-            System.out.println(con1.remplirChampsRequete("SELECT * from malade"));
+            Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
+            Search SearchMutual = new Search(con1);
+            SearchMutual.SearchWithWhere("nom,prenom","malade",SearchMutual.SearchMutual());
 
         }
         catch(Exception e)
