@@ -6,6 +6,7 @@
 package model;
 import hospital.Connexion;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -40,10 +41,12 @@ public class Search {
     }
     
     //des boutons suffisent pour celui-là
-    public String nursingRotation()
+    public String nursingRotation() throws SQLException, ClassNotFoundException
     {
         Scanner sc = new Scanner(System.in);
         int rotation;
+        
+        //String rot;
         do
         {
             System.out.println("Infirmiers travaillant le jour (0) ou la nuit (1)");
@@ -51,10 +54,14 @@ public class Search {
         }while((rotation != 1)&&(rotation != 0));
         
         if(rotation == 0)
-            return "rotation like 'NUIT'";
+           return "'NUIT'"; 
         else
-            return "rotation like 'JOUR'";
+           return "'JOUR'";
         
+        //this.SearchWithWhere("numero","infirmier","rotation like "+rot);
         
+       //SELECT nom, prenom from employe e, (SELECT numero from infirmier where rotation like 'JOUR') i where i.numero = e.numero 
+       //this.SearchWithWhere("nom, prenom", "employe e, (SELECT numero from infirmier where rotation like "+rot+") i", "i.numero = e.numero ");  
+       //System.out.println(con.remplirChampsRequete("SELECT nom, prenom from employe e, (SELECT numero from infirmier where rotation like 'JOUR') i where i.numero = e.numero"));
     }
 }

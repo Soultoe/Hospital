@@ -52,7 +52,9 @@ public class Hospital {
             }
             if(choice == 1)
             {
-                SearchMutual.SearchWithWhere("numero","infirmier",SearchMutual.nursingRotation());
+                //SearchMutual.nursingRotation();
+                
+                SearchMutual.SearchWithWhere("nom, prenom", "employe e, (SELECT numero from infirmier where rotation like "+SearchMutual.nursingRotation()+") i", "i.numero = e.numero ");
             }
             
 
