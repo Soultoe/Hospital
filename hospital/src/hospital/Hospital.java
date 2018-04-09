@@ -34,8 +34,13 @@ public class Hospital {
           
         //pour mon test
         Scanner sc = new Scanner(System.in);
-        System.out.println("Que voulez vous chercher? Patients selon leur mutuelle (0)), rotation des infirmiers (1)");
-        int choice = sc.nextInt();
+        int choice;
+        do
+        {
+            System.out.println("Que voulez vous chercher? Patients selon leur mutuelle (0)), rotation des infirmiers (1)");
+            choice = sc.nextInt();
+        }while((choice !=0)&&(choice !=1));
+        
         try
         {
             //distant
@@ -45,18 +50,7 @@ public class Hospital {
             Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
             Search SearchMutual = new Search(con1);
             
-            //c'est juste un teste hein je nettoierai ça après
-            if(choice == 0)
-            {
-                SearchMutual.SearchWithWhere("nom,prenom","malade",SearchMutual.SearchMutual());
-            }
-            if(choice == 1)
-            {
-                //SearchMutual.nursingRotation();
-                
-                SearchMutual.SearchWithWhere("nom, prenom", "employe e, (SELECT numero from infirmier where rotation like "+SearchMutual.nursingRotation()+") i", "i.numero = e.numero ");
-            }
-            
+            SearchMutual.menu(choice);
 
         }
         catch(Exception e)

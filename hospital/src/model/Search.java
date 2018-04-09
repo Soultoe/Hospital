@@ -64,4 +64,27 @@ public class Search {
        //this.SearchWithWhere("nom, prenom", "employe e, (SELECT numero from infirmier where rotation like "+rot+") i", "i.numero = e.numero ");  
        //System.out.println(con.remplirChampsRequete("SELECT nom, prenom from employe e, (SELECT numero from infirmier where rotation like 'JOUR') i where i.numero = e.numero"));
     }
+    
+    public void menu(int choice) throws SQLException, ClassNotFoundException
+    {
+        //pour nos recherches
+            String select, from, where;
+            
+            //c'est juste un teste hein je nettoierai ça après
+            if(choice == 0)
+            {
+                select = "nom,prenom";
+                from = "malade";
+                where = this.SearchMutual();
+            }
+            else
+            {
+                //SearchMutual.nursingRotation();
+                select = "nom,prenom";
+                from =  "employe e, (SELECT numero from infirmier where rotation like "+this.nursingRotation()+") i";
+                where  = "i.numero = e.numero ";
+            }
+            
+            this.SearchWithWhere(select, from, where);
+    }
 }
