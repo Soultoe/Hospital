@@ -34,16 +34,16 @@ public class Hospital {
         try
         {
             //distant
-            //Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
+            Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
             
             //local
-            Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
+            //Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
             System.out.println(con1.remplirChampsRequete("SELECT * from malade"));
 
         }
         catch(Exception e)
         {
-            System.out.println("LOCAL CONNEXION ERROR!");
+            System.out.println("CONNEXION ERROR!");
         }
     }
     
