@@ -16,16 +16,17 @@ import java.awt.*;
 public class Frame extends JFrame {
     private Search r;
     private PanelEmployeeList employeeList;
-    
+    private PanelRoomsList roomsList;
     public Frame(Search r)
     {
         this.r=r;
         employeeList = new PanelEmployeeList(r);
+        roomsList = new PanelRoomsList(r);
         this.setTitle("Hospital");
         this.setSize(300, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setContentPane(employeeList);
+        this.setContentPane(roomsList);
         this.setVisible(true); 
     }  
 }

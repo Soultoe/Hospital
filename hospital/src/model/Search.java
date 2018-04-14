@@ -51,7 +51,7 @@ public class Search {
     
     public void SearchDoctor(String speciality, String patient, String firstName, String lastName) throws SQLException, ClassNotFoundException
     {
-       
+       //parce que soit on cherche une liste de docteurs toute seule, soit on cherche une liste de docteurs par patients et c'est pas la même
        if(patient.length()!=0)
        {
            select="e.nom, e.prenom, specialite, concat(m.nom, \" \",m.prenom) as Patient, e.adresse, e.tel";
