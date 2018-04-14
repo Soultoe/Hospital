@@ -17,16 +17,18 @@ public class Frame extends JFrame {
     private Search r;
     private PanelEmployeeList employeeList;
     private PanelRoomsList roomsList;
+    private PanelPatientsList patientsList;
     public Frame(Search r)
     {
         this.r=r;
         employeeList = new PanelEmployeeList(r);
         roomsList = new PanelRoomsList(r);
+        patientsList = new PanelPatientsList(r);
         this.setTitle("Hospital");
         this.setSize(300, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setContentPane(roomsList);
+        this.setContentPane(patientsList);
         this.setVisible(true); 
     }  
 }

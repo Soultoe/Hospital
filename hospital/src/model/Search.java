@@ -78,7 +78,22 @@ public class Search {
         this.SearchWithWhere();
     }
     
-    
+    public void SearchPatient(String lastName, String firstName, String mutual, String department, String roomNumber, String bedNumber, String doctor) throws SQLException, ClassNotFoundException
+    {
+        if(doctor.length()!=0)
+        {
+            select ="m.nom,m.prenom,m.adresse,m.tel,m.mutuelle, code_service, no_chambre, lit, concat(e.nom, \" \", e.prenom) as docteur";
+            from="malade m, hospitalisation h, soigne s, employe e";
+            where=" m.numero = s.no_malade AND m.numero = h.no_malade AND s.no_docteur = e.numero AND m.nom LIKE '%"+lastName+"%' AND m.prenom LIKE '%"+firstName+"%' AND m.mutuelle LIKE '%"+mutual+"%' AND code_service LIKE '%"+department+"%' AND no_chambre LIKE '%"+roomNumber+"%' AND lit LIKE '%"+bedNumber+"%' AND concat(e.nom, \" \", e.prenom) LIKE '%"+doctor+"%'";
+        }
+        else
+        {
+            select ="m.nom,m.prenom,m.adresse,m.tel,m.mutuelle, code_service, no_chambre, lit";
+            from="malade m INNER JOIN hospitalisation h ON m.numero = h.no_malade";
+            where="m.nom LIKE '%"+lastName+"%' AND m.prenom LIKE '%"+firstName+"%' AND m.mutuelle LIKE '%"+mutual+"%' AND code_service LIKE '%"+department+"%' AND no_chambre LIKE '%"+roomNumber+"%' AND lit LIKE '%"+bedNumber+"%'";
+        }
+        this.SearchWithWhere();
+    }
     
     //ANCIEN CODE
 //    //Faudra un champ texte pour celui là
