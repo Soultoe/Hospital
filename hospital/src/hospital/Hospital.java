@@ -6,6 +6,7 @@
 
 package hospital;
 import model.*;
+import vue.*;
 import java.sql.SQLException;
 import java.util.Scanner;
 
@@ -32,14 +33,7 @@ public class Hospital {
         String passwordDatabase = "";   
                   
           
-        //pour mon test
-        Scanner sc = new Scanner(System.in);
-        int choice;
-        do
-        {
-            System.out.println("Que voulez vous chercher? Patients selon leur mutuelle (0)), rotation des infirmiers (1)");
-            choice = sc.nextInt();
-        }while((choice !=0)&&(choice !=1));
+        
         
         try
         {
@@ -47,10 +41,9 @@ public class Hospital {
             //Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
             
             //local
-            Connexion con1 = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
-            Search SearchMutual = new Search(con1);
-            
-            SearchMutual.menu(choice);
+            Connexion con = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
+            Search search = new Search(con);
+            Frame fen = new Frame(search);
 
         }
         catch(Exception e)
