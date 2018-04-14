@@ -40,26 +40,13 @@ public class Search {
         this.SearchWithWhere();
     }
     
-    public void SearchEmployee(String department, String rotation, String speciality, String patient, String firstName, String lastName, int compteur) throws SQLException, ClassNotFoundException
+    public void SearchEmployee(String department, String rotation, String speciality, String patient, String firstName, String lastName) throws SQLException, ClassNotFoundException
     {
-        switch (compteur)
-        {
-          case 1:
-            this.SearchDoctor(speciality, patient, firstName, lastName);
-            break;
-          case 2:
-            this.SearchNurse(department, rotation, lastName, firstName);
-            break;
-          case 3:
             System.out.println("== Liste des docteurs ==");
             this.SearchDoctor(speciality, patient, firstName, lastName);
             System.out.println("== Liste des infirmiers ==");
             this.SearchNurse(department, rotation, lastName, firstName);
             System.out.println("== Fin liste ==");
-            break;
-          default:
-            
-        }
     }
     
     public void SearchDoctor(String speciality, String patient, String firstName, String lastName) throws SQLException, ClassNotFoundException

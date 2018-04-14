@@ -76,15 +76,15 @@ public class PanelEmployeeList extends JPanel{
           try {
                 if((infirmier.isSelected()==true)&&(doctor.isSelected()==true))
                 {
-                    r.SearchEmployee(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),3);
+                    r.SearchEmployee(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText());
                 }
                 else if(infirmier.isSelected()==true)
                 {
-                    r.SearchEmployee(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),2);
+                    r.SearchNurse(tab[4].getText(),(String)rotation.getSelectedItem(),tab[1].getText(),tab[0].getText());
                 }
                 else if(doctor.isSelected()==true)
                 {
-                    r.SearchEmployee(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),1);
+                    r.SearchDoctor(tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText());
                 }  
                 else
                 {
