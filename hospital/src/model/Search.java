@@ -40,33 +40,63 @@ public class Search {
         this.SearchWithWhere();
     }
     
-    public void SearchEmployee(String department, String rotation, String speciality, String patient, String firstName, String lastName) throws SQLException, ClassNotFoundException
+    public void SearchEmployee(String department, String rotation, String speciality, String patient, String firstName, String lastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
     {
             System.out.println("== Liste des docteurs ==");
-            this.SearchDoctor(speciality, patient, firstName, lastName);
+            this.SearchDoctor(speciality, patient, firstName, lastName, patientsNumberMin, patientsNumberMax);
             System.out.println("== Liste des infirmiers ==");
             this.SearchNurse(department, rotation, lastName, firstName);
             System.out.println("== Fin liste ==");
     }
     
-    public void SearchDoctor(String speciality, String patient, String firstName, String lastName) throws SQLException, ClassNotFoundException
+    public void SearchDoctor(String speciality, String patient, String firstName, String lastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
     {
        //parce que soit on cherche une liste de docteurs toute seule, soit on cherche une liste de docteurs par patients et c'est pas la même
+       String selectPatient, fromPatient, wherePatient, wherePatientsNumberMax;
+//       if((patient.length()!=0)&&(patientsNumberMax.length()!=0))
+//       {
+//           select="e.nom, e.prenom, specialite, concat(m.nom, \" \",m.prenom) as Patient, nb_patients, e.adresse, e.tel";
+//           from ="employe e, docteur d, malade m, soigne s, (SELECT COUNT(no_malade) as nb_patients, no_docteur FROM soigne group by no_docteur) cmp";
+//           where ="e.numero = d.numero AND m.numero = no_malade and d.numero=s.no_docteur and cmp.no_docteur = e.numero and concat(m.nom, \" \", m.prenom) like '%%' and e.nom like '%%' and e.prenom like '%%' and specialite like '%%' and nb_patients > '%%' and nb_patients < '%%'";
+//           
+//       }
+//       else if((patient.length()!=0)&&(patientsNumberMax.length()==0))
+//       {
+//           
+//       }
+//        else
+//        {
+//            select=" e.nom, e.prenom, specialite, nb_patients, e.adresse, e.tel";
+//            from ="employe e, docteur d, malade m, (SELECT COUNT(no_malade) as nb_patients, no_docteur FROM soigne group by no_docteur) cmp";
+//            where ="e.numero = d.numero and cmp.no_docteur = e.numero and e.nom like '%%' and e.prenom like '%%' and specialite like '%%' and nb_patients < '%%' and nb_patients > '%%'";
+//        }
        if(patient.length()!=0)
        {
-           select="e.nom, e.prenom, specialite, concat(m.nom, \" \",m.prenom) as Patient, e.adresse, e.tel";
-           from ="employe e, docteur d, malade m, soigne s";
-           where ="e.numero = d.numero AND m.numero = no_malade and d.numero=no_docteur and concat(m.nom, \" \", m.prenom) like '%"+patient+"%' and e.nom like '%"+lastName+"%' and e.prenom like '%"+firstName+"%' and specialite like '%"+speciality+"%'";
-           
+           selectPatient =" concat(m.nom, \" \",m.prenom) as Patient, ";
+           fromPatient="  malade m, soigne s, ";
+           wherePatient=" AND m.numero = no_malade AND d.numero=s.no_docteur and concat(m.nom, \" \", m.prenom) like '%"+patient+"%'";
        }
        else
        {
-           select="e.nom, e.prenom, specialite, e.adresse, e.tel";
-           from ="employe e, docteur d, malade m";
-           where ="e.numero = d.numero and e.nom like '%"+lastName+"%' and e.prenom like '%"+firstName+"%' and specialite like '%"+speciality+"%'";
+           selectPatient =" ";
+           fromPatient=" ";
+           wherePatient=" ";
        }
+       
+       if(patientsNumberMax.length()!=0)
+       {
+           wherePatientsNumberMax=" and nb_patients < '"+patientsNumberMax+"%' ";
+       }
+       else
+       {
+           wherePatientsNumberMax=" ";
+       }
+       
+       select ="e.nom, e.prenom, specialite,"+selectPatient+"nb_patients, e.adresse, e.tel";
+       from ="employe e, docteur d,"+fromPatient+" (SELECT COUNT(no_malade) as nb_patients, no_docteur FROM soigne group by no_docteur) cmp";
+       where = "e.numero = d.numero"+wherePatient+"and cmp.no_docteur = e.numero and e.nom like '%"+lastName+"%' and e.prenom like '%"+firstName+"%' and specialite like '%"+speciality+"%' and nb_patients > '"+patientsNumberMin+"%'"+wherePatientsNumberMax;
            
-        this.SearchWithWhere();
+       this.SearchWithWhere();
     }
     
     public void SearchNurse(String department, String rotation, String lastName, String firstName) throws SQLException, ClassNotFoundException

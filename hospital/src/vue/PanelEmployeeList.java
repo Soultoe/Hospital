@@ -18,13 +18,13 @@ import java.util.logging.Logger;
  * @author User
  */
 public class PanelEmployeeList extends JPanel{
-    private final int fieldsNumber=5;
+    private final int fieldsNumber=7;
     private final Search r;
 
     //champs d'entrée de texte
     private final JFormattedTextField tab[]=new JFormattedTextField[fieldsNumber];
     private final TextPrompt tp[] = new TextPrompt[fieldsNumber];
-    private final String txt[]={"Nom","Prénom","Spécialité du docteur","Patient du docteur","Département de l'infirmier"};
+    private final String txt[]={"Nom","Prénom","Spécialité du docteur","Patient du docteur","Département de l'infirmier", "Nombre de patients min", "Nombre de patients max"};
      
     //sélection de texte pour la rotation de l'infirmier
     private final String rot[]= {"","JOUR", "NUIT"};
@@ -76,7 +76,7 @@ public class PanelEmployeeList extends JPanel{
           try {
                 if((infirmier.isSelected()==true)&&(doctor.isSelected()==true))
                 {
-                    r.SearchEmployee(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText());
+                    r.SearchEmployee(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),tab[5].getText(),tab[6].getText());
                 }
                 else if(infirmier.isSelected()==true)
                 {
@@ -84,7 +84,7 @@ public class PanelEmployeeList extends JPanel{
                 }
                 else if(doctor.isSelected()==true)
                 {
-                    r.SearchDoctor(tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText());
+                    r.SearchDoctor(tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),tab[5].getText(),tab[6].getText());
                 }  
                 else
                 {

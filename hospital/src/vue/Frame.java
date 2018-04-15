@@ -25,10 +25,10 @@ public class Frame extends JFrame {
         roomsList = new PanelRoomsList(r);
         patientsList = new PanelPatientsList(r);
         this.setTitle("Hospital");
-        this.setSize(300, 300);
+        this.setSize(300, 350);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.setContentPane(patientsList);
+        this.setContentPane(employeeList);
         this.setVisible(true); 
     }  
 }
