@@ -22,14 +22,14 @@ public class Frame extends JFrame {
     private JPanel container;
     private PanelAjout add;
     private PanelUpdate up;
-    public Frame(Search r, Connexion con)
+    public Frame(Connexion con)
     {
+        Search r = new Search(con);
         //setup de la fenetre
         this.setTitle("Hospital");
         this.setSize(800, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
-        this.r=r;
         
         //setup du conteneur global
         container = new JPanel();
