@@ -21,6 +21,7 @@ public class Frame extends JFrame {
     private PanelPatientsList patientsList;
     private JPanel container;
     private PanelAjout add;
+    private PanelUpdate up;
     public Frame(Search r, Connexion con)
     {
         //setup de la fenetre
@@ -40,11 +41,17 @@ public class Frame extends JFrame {
         patientsList = new PanelPatientsList(r);
         
         //setup des conteneurs d'ajout/modification
+        JPanel addAndUpdate = new JPanel();
+        addAndUpdate.setLayout(new GridLayout(2,1));
         add = new PanelAjout(con);
+        up = new PanelUpdate(con);
+        
+        addAndUpdate.add(add);
+        addAndUpdate.add(up);
         
         //imbrication des conteneurs
         container.add(employeeList);
-        container.add(add);
+        container.add(addAndUpdate);
         
         
         //finalisation

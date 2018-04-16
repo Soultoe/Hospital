@@ -12,18 +12,18 @@ import java.sql.SQLException;
  *
  * @author romain
  */
-public class Add {
+public class Update {
     
     private final Connexion con;
     
-    public Add(Connexion con)
+    public Update(Connexion con)
     {
         this.con = con;
     }
     
-    public void getRequete(String requete) throws SQLException
+    public void getUpdate(String requete) throws SQLException
     {
-       con.executeUpdate(requete);
+        con.executeUpdate(requete);
     }
     
 }
