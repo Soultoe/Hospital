@@ -43,7 +43,7 @@ public class Hospital {
             //local
             Connexion con = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
             Search search = new Search(con);
-            Frame fen = new Frame(search);
+            Frame fen = new Frame(search,con);
 
         }
         catch(Exception e)
