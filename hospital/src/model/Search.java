@@ -16,21 +16,46 @@ import java.util.Scanner;
 public class Search extends Action{
     private String select, from, where;
     
+    /**
+     * @name Overload constructor
+     * @param con 
+     */
     public Search(Connexion con)
     {
         super(con);
+        select = from = where = "";
     }
     
-     public void SearchWithoutWhere() throws SQLException, ClassNotFoundException
+    /**
+     * @name SearchWithoutWhere
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
+    public void SearchWithoutWhere() throws SQLException, ClassNotFoundException
     {
         System.out.println(con.remplirChampsRequete("SELECT "+select+" FROM "+from));
     }
     
+    /**
+     * @name SearchWithWhere
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public void SearchWithWhere() throws SQLException, ClassNotFoundException
     {
         System.out.println(con.remplirChampsRequete("SELECT "+select+" FROM "+from+" WHERE "+where));
     }
     
+    /**
+     * @name SearchRoom
+     * @param building
+     * @param department
+     * @param bedNumber
+     * @param roomNumber
+     * @param warden
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public void SearchRoom(String building, String department, String bedNumber, String roomNumber,  String warden ) throws  SQLException, ClassNotFoundException
     { 
         select = "batiment, code_service, no_chambre, concat(employe.nom, \" \",employe.prenom) as surveillant, nb_lits";
@@ -39,6 +64,19 @@ public class Search extends Action{
         this.SearchWithWhere();
     }
     
+    /**
+     * @name SearchEmployee
+     * @param department
+     * @param rotation
+     * @param speciality
+     * @param patient
+     * @param firstName
+     * @param lastName
+     * @param patientsNumberMin
+     * @param patientsNumberMax
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public void SearchEmployee(String department, String rotation, String speciality, String patient, String firstName, String lastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
     {
             System.out.println("== Liste des docteurs ==");
@@ -48,6 +86,17 @@ public class Search extends Action{
             System.out.println("== Fin liste ==");
     }
     
+    /**
+     * @name SearchDoctor
+     * @param speciality
+     * @param patient
+     * @param firstName
+     * @param lastName
+     * @param patientsNumberMin
+     * @param patientsNumberMax
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public void SearchDoctor(String speciality, String patient, String firstName, String lastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
     {
        //parce que soit on cherche une liste de docteurs toute seule, soit on cherche une liste de docteurs par patients et c'est pas la même
@@ -98,6 +147,15 @@ public class Search extends Action{
        this.SearchWithWhere();
     }
     
+    /**
+     * @name SearchNurse
+     * @param department
+     * @param rotation
+     * @param lastName
+     * @param firstName
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public void SearchNurse(String department, String rotation, String lastName, String firstName) throws SQLException, ClassNotFoundException
     {
         
@@ -107,6 +165,18 @@ public class Search extends Action{
         this.SearchWithWhere();
     }
     
+    /**
+     * @SearchPatient
+     * @param lastName
+     * @param firstName
+     * @param mutual
+     * @param department
+     * @param roomNumber
+     * @param bedNumber
+     * @param doctor
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public void SearchPatient(String lastName, String firstName, String mutual, String department, String roomNumber, String bedNumber, String doctor) throws SQLException, ClassNotFoundException
     {
         if(doctor.length()!=0)

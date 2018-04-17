@@ -15,6 +15,10 @@ public abstract class Action {
     
     protected Connexion con;
     
+    /**
+     * @name Action
+     * @param con 
+     */
     public Action(Connexion con)
     {
         this.con = con;

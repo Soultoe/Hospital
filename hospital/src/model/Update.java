@@ -14,11 +14,20 @@ import java.sql.SQLException;
  */
 public class Update extends Action {
     
+    /**
+     * @name Overload constructor
+     * @param con 
+     */
     public Update(Connexion con)
     {
         super(con);
     }
     
+    /**
+     * @name getUpdate
+     * @param requete
+     * @throws SQLException 
+     */
     public void getUpdate(String requete) throws SQLException
     {
         con.executeUpdate(requete);
