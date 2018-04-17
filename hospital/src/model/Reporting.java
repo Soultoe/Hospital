@@ -145,6 +145,41 @@ public class Reporting {
                     from = "chambre c, service, (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h";
                     where = "code = c.code_service and (h.code_service = c.code_service) group by batiment, c.code_service";
                     break;
+                    
+              case 16 :
+                    System.out.print("Choix 16 : % de médecins par patients");
+                    select =  "count(DISTINCT no_malade), count(no_docteur) , count(no_docteur)/count(DISTINCT no_malade)";
+                    from = "soigne";
+                    where = "no_malade like '%%'";
+                    break;
+                    
+                    
+              case 17 :
+                    System.out.print("Choix 17 : % de patients par médecins pour chaque spé");
+                    select =  "d.specialite, count(d.specialite), nb_malades, nb_malades/count(d.specialite)";
+                    from = "docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m ";
+                    where = "d.specialite = m.specialite group by d.specialite";
+                    break;
+                    
+              case 18 :
+                    System.out.print("Choix 18 : nombre de malades par service , nombre d'infirmiers par service et % d'infirmiers par patient pour chaque secteur");
+                    select =  "h.code_service, count(DISTINCT no_malade), count(DISTINCT numero), count(DISTINCT numero) /count(DISTINCT no_malade) ";
+                    from = "hospitalisation h, infirmier i";
+                    where = "i.code_service = h.code_service group by h.code_service";
+                    break;
+              case 19 :
+                    System.out.print("Choix 19 : % de malades hospitalisés");
+                    select =  "count(DISTINCT numero), count(DISTINCT no_malade), count(DISTINCT no_malade)/ count(DISTINCT numero) * 100 ";
+                    from = "hospitalisation, malade";
+                    where = "numero like '%%'";
+                    break;
+                    
+              case 20 :
+                    System.out.print("Choix 20 : nombre de survaillants par chambre");
+                    select =  "count(*), count(DISTINCT surveillant), count(DISTINCT surveillant)/count(*)";
+                    from = "chambre";
+                    where = "surveillant like '%%'";
+                    break;
             default :;
         }
         this.SearchWithWhere();
