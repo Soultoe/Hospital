@@ -6,22 +6,18 @@
 package model;
 
 import hospital.*;
-import java.sql.SQLException;
 
 /**
  *
  * @author romain
  */
-public class Update extends Action {
+public abstract class Action {
     
-    public Update(Connexion con)
-    {
-        super(con);
-    }
+    protected Connexion con;
     
-    public void getUpdate(String requete) throws SQLException
+    public Action(Connexion con)
     {
-        con.executeUpdate(requete);
+        this.con = con;
     }
     
 }

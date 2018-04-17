@@ -42,10 +42,10 @@ public class Hospital {
             
             //local
             Connexion con = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
-            //Search search = new Search(con);
-            //Frame fen = new Frame(con);
-            Reporting report = new Reporting(con);
-            report.toutesMesRequetesSqlaSupprimierPlusTard();
+            Search search = new Search(con);
+            Frame fen = new Frame(con);
+            //Reporting report = new Reporting(con);
+            //report.toutesMesRequetesSqlaSupprimierPlusTard();
 
         }
         catch(Exception e)

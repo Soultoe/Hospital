@@ -12,13 +12,11 @@ import java.sql.SQLException;
  *
  * @author romain
  */
-public class Add {
-    
-    private final Connexion con;
+public class Add extends Action{
     
     public Add(Connexion con)
     {
-        this.con = con;
+        super(con);
     }
     
     public void getRequete(String requete) throws SQLException

@@ -13,13 +13,12 @@ import java.util.Scanner;
  *
  * @author User
  */
-public class Search {
-    private Connexion con;
+public class Search extends Action{
     private String select, from, where;
     
     public Search(Connexion con)
     {
-        this.con=con;
+        super(con);
     }
     
      public void SearchWithoutWhere() throws SQLException, ClassNotFoundException
