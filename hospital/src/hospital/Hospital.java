@@ -9,6 +9,7 @@ import model.*;
 import vue.*;
 import java.sql.SQLException;
 import java.util.Scanner;
+import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -32,8 +33,8 @@ public class Hospital {
         String loginDatabase = "root";
         String passwordDatabase = "";   
                   
-          
-        
+        //ICI ANACHAT
+        DefaultPieDataset dataset = new DefaultPieDataset();
         
         try
         {
