@@ -43,8 +43,11 @@ public class PanelWork extends JPanel{
         
         //add and update tab init
         //will also become an array in due time
-        for(int i=0;i<searchTabs.length;i++)
+        for(int i=0;i<addAndUpdateTabs.length;i++)
+        {
+            System.out.println(i);
             addAndUpdateTabs[i] = new AddAndUpdateTab(con,i);
+        }
         
         //reporting Tab init
         reportingTab = new ReportingTab();

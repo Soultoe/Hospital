@@ -36,13 +36,16 @@ public class PanelAddAndUpdateDepartment extends JPanel{
     {
         results = new JTextField();
         results.setPreferredSize(new Dimension(100,300));
+        
         form = new JPanel();
         form.setBorder(new EmptyBorder(50,30,30,30));
         form.setBackground(Color.LIGHT_GRAY);
         GridLayout g = new GridLayout(2,2);
         //g.setHgap(60); g.setVgap(100);
         form.setLayout(g);
+        
         send = new JButton("Send");
+        
         add = new JCheckBox("add");
         update = new JCheckBox("update");
         
