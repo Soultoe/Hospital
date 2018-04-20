@@ -26,7 +26,7 @@ public class PanelWork extends JPanel{
     
     //in the tab Panels
     private SearchTab[] searchTabs = new SearchTab[3];
-    private AddAndUpdateTab addAndUpdateTab;
+    private AddAndUpdateTab[] addAndUpdateTabs = new AddAndUpdateTab[5];
     private ReportingTab reportingTab;
     
     public PanelWork(Connexion con)
@@ -43,7 +43,8 @@ public class PanelWork extends JPanel{
         
         //add and update tab init
         //will also become an array in due time
-        addAndUpdateTab = new AddAndUpdateTab(con);
+        for(int i=0;i<searchTabs.length;i++)
+            addAndUpdateTabs[i] = new AddAndUpdateTab(con,i);
         
         //reporting Tab init
         reportingTab = new ReportingTab();
@@ -55,7 +56,11 @@ public class PanelWork extends JPanel{
         search.addTab("Rooms",searchTabs[2]);
         search.addTab("Reporting",reportingTab);
         
-        addAndUpdate.addTab("provisoire",addAndUpdateTab);
+        addAndUpdate.addTab("Doctor",addAndUpdateTabs[0]);
+        addAndUpdate.addTab("Nurse",addAndUpdateTabs[1]);
+        addAndUpdate.addTab("Patient",addAndUpdateTabs[2]);
+        addAndUpdate.addTab("Department",addAndUpdateTabs[3]);
+        addAndUpdate.addTab("Room",addAndUpdateTabs[4]);
         
         this.setLayout(new GridLayout(1,2));
         this.add(search);

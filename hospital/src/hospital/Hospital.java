@@ -36,8 +36,8 @@ public class Hospital {
         //ICI ANACHAT
         DefaultPieDataset dataset = new DefaultPieDataset();
         
-        try
-        {
+        //try
+        //{
             //distant
             //Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
             
@@ -48,11 +48,11 @@ public class Hospital {
             //Reporting report = new Reporting(con);
             //report.toutesMesRequetesSqlaSupprimierPlusTard();
 
-        }
-        catch(Exception e)
-        {
-            System.out.println("CONNEXION ERROR!");
-        }
+        //}
+        //catch(Exception e)
+        //{
+          //  System.out.println("CONNEXION ERROR!");
+        //}
     }
     
 }

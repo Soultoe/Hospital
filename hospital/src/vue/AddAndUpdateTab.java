@@ -18,20 +18,37 @@ import javax.swing.JTextField;
  */
 public class AddAndUpdateTab extends JPanel{
     
-    //will be a box Layout
+    private JPanel form;
     
     //will contain
-    private PanelAddAndUpdate addAndUpdate;
-    private JButton send;
-    private JTextField resultsField;
-    
-    public AddAndUpdateTab(Connexion con)
+    public AddAndUpdateTab(Connexion con, int type)
     {
         this.setBackground(Color.LIGHT_GRAY);
         
-        addAndUpdate = new PanelAddAndUpdate();
-        send = new JButton("send");
-        resultsField = new JTextField();
+        switch(type)
+        {
+            case 0:
+                form = new PanelAddAndUpdateEmployee(0);
+                break;
+                
+            case 1:
+                form = new PanelAddAndUpdateEmployee(1);
+                break;
+                
+            case 2:
+                form = new PanelAddAndUpdatePatients();
+                break;
+                
+            case 3:
+                form = new PanelAddAndUpdateDepartment();
+                break;
+                
+            case 4:
+                form = new PanelAddAndUpdateRoom();
+                break;
+        }
+        
+        this.add(form);
     }
     
 }
