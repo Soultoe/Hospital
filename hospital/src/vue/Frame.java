@@ -15,47 +15,41 @@ import java.awt.*;
  * @author User
  */
 public class Frame extends JFrame {
-    private Search r;
-    private PanelEmployeeList employeeList;
-    private PanelRoomsList roomsList;
-    private PanelPatientsList patientsList;
-    private JPanel container;
-    private PanelAjout add;
-    private PanelUpdate up;
+    
+    //Container of tabs
+    private JTabbedPane connexionType;
+    
+    //JPanels contained in the tabs
+    private PanelRoot local;
+    private PanelRoot distant;
+    
     public Frame(Connexion con)
     {
-        Search r = new Search(con);
-        //setup de la fenetre
+        //window setup
+        super();
         this.setTitle("Hospital");
         this.setSize(800, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         
-        //setup du conteneur global
-        container = new JPanel();
-        container.setLayout(new GridLayout(1,2));
+        //setup of main tabs --> local and distant connexion
+        connexionType = new JTabbedPane();
         
-        //setup des conteneurs de Recherche
-        employeeList = new PanelEmployeeList(r);
-        roomsList = new PanelRoomsList(r);
-        patientsList = new PanelPatientsList(r);
+        //setup of root panes --> HERE WE SHALL MAKE THE DIFFERENCE BETWEEN LOCAL AND DISTANT CONNEXION? BY PASSING BOTH IN PARAMETERS
+        local = new PanelRoot(con);
+        distant = new PanelRoot(con);
         
-        //setup des conteneurs d'ajout/modification
-        JPanel addAndUpdate = new JPanel();
-        addAndUpdate.setLayout(new GridLayout(2,1));
-        add = new PanelAjout(con);
-        up = new PanelUpdate(con);
-        
-        addAndUpdate.add(add);
-        addAndUpdate.add(up);
-        
-        //imbrication des conteneurs
-        container.add(employeeList);
-        container.add(addAndUpdate);
-        
+        //setup of the tabs
+        connexionType.addTab("Local",local);
+        connexionType.addTab("Distant",distant);
         
         //finalisation
-        this.setContentPane(container);
-        this.setVisible(true); 
+        this.setContentPane(connexionType);
+        this.setVisible(true);
+//        Search r = new Search(con);
+//        PanelEmployeeList truc = new PanelEmployeeList(r);
+//        
+//        this.setContentPane(truc);
+//        this.setVisible(true);
     }  
 }
