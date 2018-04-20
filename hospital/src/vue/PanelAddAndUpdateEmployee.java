@@ -11,6 +11,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -25,6 +26,7 @@ public class PanelAddAndUpdateEmployee extends JPanel{
     private JPanel form;
     private JButton send;
     private JTextField results;
+    private JCheckBox update,add;
     
     private JFormattedTextField[] commons;
     private String[] commonNames = {"id","name","surname","address","phone"};
@@ -41,6 +43,8 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         form.setBorder(new EmptyBorder(50,30,30,30));
         form.setBackground(Color.LIGHT_GRAY);
         send = new JButton("Send");
+        add = new JCheckBox("add");
+        update = new JCheckBox("update");
         
         commons = new JFormattedTextField[5];
         for(int i=0;i<commons.length;i++){
@@ -121,6 +125,12 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         p3.setBackground(Color.LIGHT_GRAY);
         p3.add(send);
         
+        JPanel p4 = new JPanel();
+        p4.setLayout(new BoxLayout(p4,BoxLayout.LINE_AXIS));
+        p4.add(add);
+        p4.add(update);
+        
+        this.add(p4);
         this.add(p1);
         this.add(p3);
         this.add(p2);

@@ -56,6 +56,7 @@ public class PanelWork extends JPanel{
         search.addTab("Rooms",searchTabs[2]);
         search.addTab("Reporting",reportingTab);
         
+        //works like a charm, the contained object is wrong. (last 2)
         addAndUpdate.addTab("Doctor",addAndUpdateTabs[0]);
         addAndUpdate.addTab("Nurse",addAndUpdateTabs[1]);
         addAndUpdate.addTab("Patient",addAndUpdateTabs[2]);
