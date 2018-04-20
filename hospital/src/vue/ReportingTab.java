@@ -5,6 +5,7 @@
  */
 package vue;
 
+import java.awt.Color;
 import javax.swing.JPanel;
 
 /**
@@ -15,6 +16,8 @@ public class ReportingTab extends JPanel{
     
     public ReportingTab()
     {
+        this.setBackground(Color.LIGHT_GRAY);
+        
         //...
     }
     

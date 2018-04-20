@@ -7,6 +7,7 @@ package vue;
 
 import model.Search;
 import hospital.Connexion;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -28,6 +29,8 @@ public class SearchTab extends JPanel{
     
     public SearchTab(int type, Connexion con)
     {
+        this.setBackground(Color.LIGHT_GRAY);
+        
         search = new Search(con);
         
         switch(type)

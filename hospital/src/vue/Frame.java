@@ -31,6 +31,7 @@ public class Frame extends JFrame {
         this.setSize(800, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
+        this.setBackground(Color.LIGHT_GRAY);
         
         //setup of main tabs --> local and distant connexion
         connexionType = new JTabbedPane();

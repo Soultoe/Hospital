@@ -6,6 +6,7 @@
 package vue;
 
 import hospital.Connexion;
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -30,6 +31,8 @@ public class PanelWork extends JPanel{
     
     public PanelWork(Connexion con)
     {
+        this.setBackground(Color.LIGHT_GRAY);
+
         //TabbedPane init
         addAndUpdate = new JTabbedPane();
         search = new JTabbedPane();
@@ -50,6 +53,7 @@ public class PanelWork extends JPanel{
         search.addTab("Employees",searchTabs[0]);
         search.addTab("Patients",searchTabs[1]);
         search.addTab("Rooms",searchTabs[2]);
+        search.addTab("Reporting",reportingTab);
         
         addAndUpdate.addTab("provisoire",addAndUpdateTab);
         

@@ -7,6 +7,7 @@ package vue;
 
 import hospital.Connexion;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 
 import javax.swing.JButton;
@@ -24,8 +25,10 @@ public class PanelRoot extends JPanel{
     
     public PanelRoot(Connexion con)
     {
+        this.setBackground(Color.LIGHT_GRAY);
+        
         workPane = new PanelWork(con);
-        quit = new JButton("quit");
+        quit = new JButton("Quit");
         quit.addActionListener((ActionEvent event) -> {
             System.exit(0);
         });

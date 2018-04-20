@@ -44,6 +44,7 @@ public class PanelEmployeeList extends JPanel{
   
     public PanelEmployeeList(Search r)
     {
+        this.setBackground(Color.LIGHT_GRAY);
         this.r=r;
         
         results.setPreferredSize(new Dimension(100,300));

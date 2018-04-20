@@ -6,6 +6,7 @@
 package vue;
 
 import hospital.Connexion;
+import java.awt.Color;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -26,6 +27,8 @@ public class AddAndUpdateTab extends JPanel{
     
     public AddAndUpdateTab(Connexion con)
     {
+        this.setBackground(Color.LIGHT_GRAY);
+        
         addAndUpdate = new PanelAddAndUpdate();
         send = new JButton("send");
         resultsField = new JTextField();

@@ -12,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
@@ -28,32 +29,56 @@ public class PanelRoomsList extends JPanel{
 
     //bouton pour demander la requête
     private final JButton b = new JButton ("Chercher");
+    
+    //TextField for results
+    private JTextField results = new JTextField();
    
   
     public PanelRoomsList(Search r)
     {
+        this.setBackground(Color.LIGHT_GRAY);
         this.r=r;
         
-        //this.setLayout(new BorderLayout());
-        //this.setLayout(new GridLayout(3, 2));
-        
+        results.setPreferredSize(new Dimension(100,300));
+        this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
         b.addActionListener(new BoutonListener());
+        
+        JPanel form = new JPanel();
+        GridLayout g = new GridLayout(5,2);
+        //g.setHgap(60); g.setVgap(100);
+        form.setLayout(g);
+        form.setBorder(new EmptyBorder(50,30,30,30));
+        form.setBackground(Color.LIGHT_GRAY);
         
         //initialisation des cases d'entrée de texte
         for(int i=0;i<tab.length;i++)
         {
             tab[i]= new JFormattedTextField();
-            tab[i].setPreferredSize(new Dimension(150, 30));
-            this.add(tab[i]);
+            tab[i].setPreferredSize(new Dimension(300,30));
+            form.add(tab[i]);
             
             //là c'est pour qu'on écrive un texte préféfini dedans
             tp[i]=new TextPrompt(txt[i], tab[i]);
             tp[i].setForeground(Color.GRAY );
             tp[i].changeStyle(Font.ITALIC);
         }
-     
-        this.add(b); 
+        
+        JPanel p1 = new JPanel();
+        p1.setLayout(new BoxLayout(p1,BoxLayout.LINE_AXIS));
+        p1.add(form);
+        
+        JPanel p2 = new JPanel();
+        p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
+        p2.add(results);
+        
+        JPanel p3 = new JPanel();
+        p3.setLayout(new BoxLayout(p3,BoxLayout.LINE_AXIS));
+        p3.add(b);
+        
+        this.add(p1);
+        this.add(p3);
+        this.add(p2);  
        
     }
     
