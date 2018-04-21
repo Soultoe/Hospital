@@ -40,11 +40,16 @@ public class Hospital {
         //{
             //distant
             //Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
+            //Connexion distantCon = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
+            Connexion distantCon = new Connexion(nameDatabase, loginDatabase, passwordDatabase); //CAREFUL THIS IS A LOCAL CONNEXION BUT I PUT IT LIKE THIS IN DISTANT CUZ DISTANT DOES NOT WORK
+
             
             //local
-            Connexion con = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
-            Search search = new Search(con);
-            Frame fen = new Frame(con);
+            Connexion localCon = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
+            
+            //Fenetre
+            Search search = new Search(localCon);
+            Frame fen = new Frame(localCon,distantCon);
             //Reporting report = new Reporting(con);
             //report.toutesMesRequetesSqlaSupprimierPlusTard();
 

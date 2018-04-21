@@ -23,7 +23,7 @@ public class Frame extends JFrame {
     private PanelRoot local;
     private PanelRoot distant;
     
-    public Frame(Connexion con)
+    public Frame(Connexion localCon, Connexion distantCon)
     {
         //window setup
         super();
@@ -37,8 +37,8 @@ public class Frame extends JFrame {
         connexionType = new JTabbedPane();
         
         //setup of root panes --> HERE WE SHALL MAKE THE DIFFERENCE BETWEEN LOCAL AND DISTANT CONNEXION? BY PASSING BOTH IN PARAMETERS
-        local = new PanelRoot(con);
-        distant = new PanelRoot(con);
+        local = new PanelRoot(localCon);
+        distant = new PanelRoot(distantCon);
         
         //setup of the tabs
         connexionType.addTab("Local",local);
