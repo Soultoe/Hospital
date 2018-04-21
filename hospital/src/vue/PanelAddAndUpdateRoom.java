@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -43,8 +44,18 @@ public class PanelAddAndUpdateRoom extends JPanel{
         //g.setHgap(60); g.setVgap(100);
         form.setLayout(g);
         send = new JButton("Send");
+        
         add = new JCheckBox("add");
+        add.addActionListener((ActionEvent event) -> {
+            if(update.isSelected())
+                update.setSelected(false);
+        });
+        
         update = new JCheckBox("update");
+        update.addActionListener((ActionEvent event) -> {
+            if(add.isSelected())
+                add.setSelected(false);
+        });
         
         commons = new JFormattedTextField[4];
         for(int i=0;i<commons.length;i++){

@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -40,8 +41,18 @@ public class PanelAddAndUpdatePatients extends JPanel{
         form.setBorder(new EmptyBorder(50,30,30,30));
         form.setBackground(Color.LIGHT_GRAY);
         send = new JButton("Send");
+        
         add = new JCheckBox("add");
+        add.addActionListener((ActionEvent event) -> {
+            if(update.isSelected())
+                update.setSelected(false);
+        });
+        
         update = new JCheckBox("update");
+        update.addActionListener((ActionEvent event) -> {
+            if(add.isSelected())
+                add.setSelected(false);
+        });
         
         GridLayout g = new GridLayout(5,2);
         //g.setHgap(60); g.setVgap(100);
