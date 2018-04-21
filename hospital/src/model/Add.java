@@ -33,7 +33,7 @@ public class Add extends Action{
        con.executeUpdate(requete);
     }
     
-    public String buildRequest(boolean dOrN, String[] fields) throws SQLException
+    public String buildRequestEmployee(boolean dOrN, String[] fields) throws SQLException
     {
         String emp = "INSERT INTO employe(numero,nom,prenom,adresse,tel) VALUES(" + fields[0] + ", '" + fields[1] + "', '" + fields[2] + "', '" + fields[3] + "', '" + fields[4] + "');";
         String type;

@@ -33,7 +33,7 @@ public class Update extends Action {
         con.executeUpdate(requete);
     }
     
-    public String buildRequest(boolean dOrN, String[] fields) throws SQLException
+    public String buildRequestEmployee(boolean dOrN, String[] fields) throws SQLException
     {
         String emp = "UPDATE employe SET nom = '" + fields[1] + "', prenom = '" + fields[2] + "', adresse = '" + fields[3] + "', tel = '" + fields[4] + "' WHERE numero = " + fields[0] + ";";
         System.out.println(emp);

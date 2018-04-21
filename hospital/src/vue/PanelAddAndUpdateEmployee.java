@@ -14,6 +14,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -56,7 +59,11 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         form.setBackground(Color.LIGHT_GRAY);
         send = new JButton("Send");
         send.addActionListener((ActionEvent event) -> {
-            this.sendRequest();
+            try {
+                this.sendRequest();
+            } catch (SQLException ex) {
+                Logger.getLogger(PanelAddAndUpdateEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            }
         });
         
         add = new JCheckBox("add");
@@ -169,7 +176,7 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         this.add(p2);
     }
     
-    public void sendRequest()
+    public void sendRequest() throws SQLException
     {
         for(int i=0;i<fields.length;i++)
         {
@@ -184,13 +191,13 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         //true means doctor, false is nurse
         
         if(add.isSelected()&&specifics.length==1)
-            results.setText(addObj.buildRequest(true, fields));
+            results.setText(addObj.buildRequestEmployee(true, fields));
         else if(add.isSelected()&&specifics.length==3)
-            results.setText(addObj.buildRequest(false, fields));
+            results.setText(addObj.buildRequestEmployee(false, fields));
         else if(update.isSelected()&&specifics.length==1)
-            results.setText(updateObj.buildRequest(true, fields));
+            results.setText(updateObj.buildRequestEmployee(true, fields));
         else if(update.isSelected()&&specifics.length==3)
-            results.setText(updateObj.buildRequest(false, fields));
+            results.setText(updateObj.buildRequestEmployee(false, fields));
 
     }
     

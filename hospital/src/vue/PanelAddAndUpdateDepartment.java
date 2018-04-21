@@ -10,6 +10,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -46,6 +49,13 @@ public class PanelAddAndUpdateDepartment extends JPanel{
         form.setLayout(g);
         
         send = new JButton("Send");
+        send.addActionListener((ActionEvent event) -> {
+            try {
+                this.sendRequest();
+            } catch (SQLException ex) {
+                Logger.getLogger(PanelAddAndUpdateEmployee.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
         
         add = new JCheckBox("add");
         add.addActionListener((ActionEvent event) -> {
@@ -101,6 +111,11 @@ public class PanelAddAndUpdateDepartment extends JPanel{
         this.add(p1);
         this.add(p3);
         this.add(p2);
+    }
+    
+    public void sendRequest() throws SQLException
+    {
+        
     }
     
 }
