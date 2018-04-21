@@ -5,6 +5,8 @@
  */
 package vue;
 
+import hospital.Connexion;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -20,6 +22,8 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import model.Add;
+import model.Update;
 
 /**
  *
@@ -31,13 +35,20 @@ public class PanelAddAndUpdateRoom extends JPanel{
     private JButton send;
     private JTextField results;
     private JCheckBox update,add;
+    private String[] fields;
     
     private JFormattedTextField[] commons;
     private String[] commonNames = {"dept code","number","warden","bed number"};
     private TextPrompt[] tp = new TextPrompt[commonNames.length];
     
-    public PanelAddAndUpdateRoom()
+    private Update updateObj;
+    private Add addObj;
+    
+    public PanelAddAndUpdateRoom(Connexion con)
     {
+        updateObj = new Update(con);
+        addObj = new Add(con);
+        
         results = new JTextField();
         results.setPreferredSize(new Dimension(100,300));
         form = new JPanel();
@@ -72,6 +83,7 @@ public class PanelAddAndUpdateRoom extends JPanel{
         });
         
         commons = new JFormattedTextField[4];
+        fields = new String[commons.length];
         for(int i=0;i<commons.length;i++){
             commons[i] = new JFormattedTextField();
             commons[i].setPreferredSize(new Dimension(150, 30));
@@ -113,6 +125,13 @@ public class PanelAddAndUpdateRoom extends JPanel{
     
     public void sendRequest() throws SQLException
     {
+        for(int i=0;i<fields.length;i++)
+            fields[i] = commons[i].getText();
+        
+        if(add.isSelected())
+            results.setText(addObj.buildRequestRoom(fields));
+        else if(update.isSelected())
+            results.setText(updateObj.buildRequestRoom(fields));
         
     }
     

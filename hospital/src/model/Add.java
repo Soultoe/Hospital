@@ -55,4 +55,36 @@ public class Add extends Action{
         
     }
     
+    public String buildRequestPatients(String[] fields) throws SQLException
+    {
+        String patient = "INSERT INTO malade(numero,nom,prenom,adresse,tel,mutuelle) VALUES(" + fields[0] + ", '" + fields[1] + "', '" + fields[2] + "', '" + fields[3] + "', '" + fields[4] + "', '" + fields[5] + "');";
+        String heal = "INSERT INTO soigne(no_docteur,no_malade) VALUES (" + fields[6] + ", " + fields[0] + ");";
+        String hospitalize = "INSERT INTO hospitalisation(no_malade,code_service,no_chambre,lit) VALUES(" + fields[0] + ", '" + fields[7] + "', " + fields[8] + ", " + fields[9] + ");";
+        System.out.println(patient);
+        System.out.println(heal);
+        System.out.println(hospitalize);
+        
+        this.getRequete(patient);
+        this.getRequete(heal);
+        this.getRequete(hospitalize);
+        
+        return patient + " | " + heal + " | " + hospitalize;
+    }
+    
+    public String buildRequestDepartment(String[] fields) throws SQLException
+    {
+        String request = "INSERT INTO service(code,nom,batiment,directeur) VALUES ('" + fields[0] + "' ,'" + fields[1] + "' ,'" + fields[2] + "' ,'" + fields[3] + "');";
+        System.out.println(request);
+        this.getRequete(request);
+        return request;
+    }
+    
+    public String buildRequestRoom(String[] fields) throws SQLException
+    {
+        String request = "INSERT INTO chambre(code_service,no_chambre,surveillant,nb_lits) VALUES ('" + fields[0] + "' ," + fields[1] + " ," + fields[2] + " ," + fields[3] + ");";
+        System.out.println(request);
+        this.getRequete(request);
+        return request;
+    }
+    
 }

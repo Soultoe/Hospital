@@ -36,15 +36,15 @@ public class AddAndUpdateTab extends JPanel{
                 break;
                 
             case 2:
-                form = new PanelAddAndUpdatePatients();
+                form = new PanelAddAndUpdatePatients(con);
                 break;
                 
             case 3:
-                form = new PanelAddAndUpdateDepartment();
+                form = new PanelAddAndUpdateDepartment(con);
                 break;
                 
             case 4:
-                form = new PanelAddAndUpdateRoom();
+                form = new PanelAddAndUpdateRoom(con);
                 break;
         }
         
