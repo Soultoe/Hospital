@@ -33,4 +33,18 @@ public class Update extends Action {
         con.executeUpdate(requete);
     }
     
+    public String buildRequest(boolean dOrN, String[] fields)
+    {
+        if(dOrN) //means doctor
+            System.out.println("INSERT INTO docteur");
+        else
+            System.out.println("INSERT INTO docteur");
+        
+        for(int i=0;i<fields.length;i++)
+            System.out.println(fields[i]);
+        
+        return "Successful insert!";
+        
+    }
+    
 }

@@ -33,4 +33,15 @@ public class Add extends Action{
        con.executeUpdate(requete);
     }
     
+    public String buildRequest(boolean dOrN, String[] fields)
+    {
+        if(dOrN) //means doctor
+            System.out.println("UPDATE docteur");
+        else
+            System.out.println("UPDATE docteur");
+        
+        return "Successful update!";
+        
+    }
+    
 }

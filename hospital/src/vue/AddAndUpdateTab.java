@@ -28,11 +28,11 @@ public class AddAndUpdateTab extends JPanel{
         switch(type)
         {
             case 0:
-                form = new PanelAddAndUpdateEmployee(0);
+                form = new PanelAddAndUpdateEmployee(con,0);
                 break;
                 
             case 1:
-                form = new PanelAddAndUpdateEmployee(1);
+                form = new PanelAddAndUpdateEmployee(con,1);
                 break;
                 
             case 2:

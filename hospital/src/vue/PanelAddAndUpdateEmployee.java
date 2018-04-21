@@ -5,6 +5,10 @@
  */
 package vue;
 
+import model.Add;
+import model.Update;
+import hospital.Connexion;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -28,6 +32,7 @@ public class PanelAddAndUpdateEmployee extends JPanel{
     private JButton send;
     private JTextField results;
     private JCheckBox update,add;
+    private String[] fields;
     
     private JFormattedTextField[] commons;
     private String[] commonNames = {"id","name","surname","address","phone"};
@@ -36,25 +41,38 @@ public class PanelAddAndUpdateEmployee extends JPanel{
     private String[] specificNames = {"speciality","dept","rotation","wage"};
     private TextPrompt[]tp2 = new TextPrompt[specificNames.length];
     
-    public PanelAddAndUpdateEmployee(int type)
+    private Update updateObj;
+    private Add addObj;
+    
+    public PanelAddAndUpdateEmployee(Connexion con,int type)
     {
+        updateObj = new Update(con);
+        addObj = new Add(con);
+        
         results = new JTextField();
         results.setPreferredSize(new Dimension(100,300));
         form = new JPanel();
         form.setBorder(new EmptyBorder(50,30,30,30));
         form.setBackground(Color.LIGHT_GRAY);
         send = new JButton("Send");
+        send.addActionListener((ActionEvent event) -> {
+            this.sendRequest();
+        });
         
         add = new JCheckBox("add");
         add.addActionListener((ActionEvent event) -> {
             if(update.isSelected())
                 update.setSelected(false);
+            if(!update.isSelected()&&!add.isSelected())
+                add.setSelected(true);
         });
         
         update = new JCheckBox("update");
         update.addActionListener((ActionEvent event) -> {
             if(add.isSelected())
                 add.setSelected(false);
+            if(!update.isSelected()&&!add.isSelected())
+                add.setSelected(true);
         });
         
         commons = new JFormattedTextField[5];
@@ -85,6 +103,8 @@ public class PanelAddAndUpdateEmployee extends JPanel{
             //g.setHgap(60); g.setVgap(100);
             form.setLayout(g);
             
+            fields = new String[commons.length+1];
+            
             for(int i=0;i<commons.length+1;i++)
             {
                 if(i<commons.length)
@@ -111,6 +131,8 @@ public class PanelAddAndUpdateEmployee extends JPanel{
             GridLayout g = new GridLayout(4,2);
             //g.setHgap(60); g.setVgap(100);
             form.setLayout(g);
+            
+            fields = new String[commons.length+specifics.length];
             
             for(int i=0;i<commons.length+specifics.length;i++)
             {
@@ -145,6 +167,31 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         this.add(p1);
         this.add(p3);
         this.add(p2);
+    }
+    
+    public void sendRequest()
+    {
+        for(int i=0;i<fields.length;i++)
+        {
+            if(i<commons.length){
+                fields[i] = commons[i].getText();
+            }
+            else {
+                fields[i] = specifics[i-commons.length].getText();
+            }
+        }
+        
+        //true means doctor, false is nurse
+        
+        if(add.isSelected()&&specifics.length==1)
+            results.setText(addObj.buildRequest(true, fields));
+        else if(add.isSelected()&&specifics.length==3)
+            results.setText(addObj.buildRequest(false, fields));
+        else if(update.isSelected()&&specifics.length==1)
+            results.setText(updateObj.buildRequest(true, fields));
+        else if(update.isSelected()&&specifics.length==3)
+            results.setText(updateObj.buildRequest(false, fields));
+
     }
     
 }

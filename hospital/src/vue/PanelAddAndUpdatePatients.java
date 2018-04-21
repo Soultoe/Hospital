@@ -46,12 +46,16 @@ public class PanelAddAndUpdatePatients extends JPanel{
         add.addActionListener((ActionEvent event) -> {
             if(update.isSelected())
                 update.setSelected(false);
+            if(!update.isSelected()&&!add.isSelected())
+                add.setSelected(true);
         });
         
         update = new JCheckBox("update");
         update.addActionListener((ActionEvent event) -> {
             if(add.isSelected())
                 add.setSelected(false);
+            if(!update.isSelected()&&!add.isSelected())
+                add.setSelected(true);
         });
         
         GridLayout g = new GridLayout(5,2);
