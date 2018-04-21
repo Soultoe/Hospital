@@ -8,6 +8,7 @@ package vue;
 import model.Search;
 import hospital.Connexion;
 import java.awt.Color;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -27,7 +28,7 @@ public class SearchTab extends JPanel{
     //non graphic objects needed
     private Search search;
     
-    public SearchTab(int type, Connexion con)
+    public SearchTab(int type, Connexion con) throws SQLException, ClassNotFoundException
     {
         this.setBackground(Color.LIGHT_GRAY);
         

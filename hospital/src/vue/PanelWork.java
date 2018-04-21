@@ -8,6 +8,7 @@ package vue;
 import hospital.Connexion;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
@@ -29,7 +30,7 @@ public class PanelWork extends JPanel{
     private AddAndUpdateTab[] addAndUpdateTabs = new AddAndUpdateTab[5];
     private ReportingTab reportingTab;
     
-    public PanelWork(Connexion con)
+    public PanelWork(Connexion con) throws SQLException, ClassNotFoundException
     {
         this.setBackground(Color.LIGHT_GRAY);
 
