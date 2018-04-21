@@ -33,17 +33,25 @@ public class Update extends Action {
         con.executeUpdate(requete);
     }
     
-    public String buildRequest(boolean dOrN, String[] fields)
+    public String buildRequest(boolean dOrN, String[] fields) throws SQLException
     {
-        if(dOrN) //means doctor
-            System.out.println("INSERT INTO docteur");
-        else
-            System.out.println("INSERT INTO docteur");
+        String emp = "INSERT INTO employe(numero,nom,prenom,adresse,tel) VALUES(" + fields[0] + ", '" + fields[1] + "', '" + fields[2] + "', '" + fields[3] + "', '" + fields[4] + "');";
+        String type;
         
-        for(int i=0;i<fields.length;i++)
-            System.out.println(fields[i]);
+        this.getUpdate(emp);
         
-        return "Successful insert!";
+        if(dOrN){ //means doctor
+            type = "INSERT INTO docteur(numero,specialite) VALUES(" + fields[0] + ", '" + fields[5] + "');";
+            System.out.println(type);
+            this.getUpdate(type);
+        }
+        else {
+            type = "INSERT INTO infirmier(numero,code_service,rotation,salaire) VALUES(" + fields[0] + ", '" + fields[5] + "', '" + fields[6] + "', '" + fields[7] + "');";
+            System.out.println(type);
+            this.getUpdate(type);
+        }
+        
+        return emp + " | " + type;
         
     }
     

@@ -33,14 +33,25 @@ public class Add extends Action{
        con.executeUpdate(requete);
     }
     
-    public String buildRequest(boolean dOrN, String[] fields)
+    public String buildRequest(boolean dOrN, String[] fields) throws SQLException
     {
-        if(dOrN) //means doctor
-            System.out.println("UPDATE docteur");
-        else
-            System.out.println("UPDATE docteur");
+        String emp = "INSERT INTO employe(numero,nom,prenom,adresse,tel) VALUES(" + fields[0] + ", '" + fields[1] + "', '" + fields[2] + "', '" + fields[3] + "', '" + fields[4] + "');";
+        String type;
         
-        return "Successful update!";
+        this.getRequete(emp);
+        
+        if(dOrN){ //means doctor
+            type = "INSERT INTO docteur(numero,specialite) VALUES(" + fields[0] + ", '" + fields[5] + "');";
+            System.out.println(type);
+            this.getRequete(type);
+        }
+        else {
+            type = "INSERT INTO infirmier(numero,code_service,rotation,salaire) VALUES(" + fields[0] + ", '" + fields[5] + "', '" + fields[6] + "', '" + fields[7] + "');";
+            System.out.println(type);
+            this.getRequete(type);
+        }
+        
+        return emp + " | " + type;
         
     }
     
