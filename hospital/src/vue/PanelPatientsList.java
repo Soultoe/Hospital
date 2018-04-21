@@ -26,23 +26,24 @@ public class PanelPatientsList extends JPanel{
     private final JFormattedTextField tab[]=new JFormattedTextField[fieldsNumber];
     private final TextPrompt tp[] = new TextPrompt[fieldsNumber];
     private final String txt[]={"Nom", "Prénom", "Mutuelle", "Code secteur", "n° chambre", "n° lit", "Docteur"};
-
+     
     //bouton pour demander la requête
     private final JButton b = new JButton ("Chercher");
     
-    //TextField for results
-    private JTextField results = new JTextField();
-   
-  
-    public PanelPatientsList(Search r)
+    //Table for results
+    private JTable tableau;
+    JPanel result = new JPanel();   
+    
+    public PanelPatientsList(Search r) throws SQLException, ClassNotFoundException
     {
         this.setBackground(Color.LIGHT_GRAY);
         this.r=r;
         
-        results.setPreferredSize(new Dimension(100,300));
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
         b.addActionListener(new BoutonListener());
+       
+        
         
         JPanel form = new JPanel();
         GridLayout g = new GridLayout(5,2);
@@ -70,7 +71,8 @@ public class PanelPatientsList extends JPanel{
         
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
-        p2.add(results);
+        p2.setPreferredSize(new Dimension(100, 300));
+        p2.add(new JScrollPane(result));
         
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.LINE_AXIS));
@@ -87,13 +89,30 @@ public class PanelPatientsList extends JPanel{
       @Override
       public void actionPerformed(ActionEvent e)
       {
+        //on supprimme tout
+        result.removeAll();
+        result.validate();
           try {
-                r.SearchPatient(tab[0].getText(), tab[1].getText(), tab[2].getText(), tab[3].getText(), tab[4].getText(),tab[5].getText(),tab[6].getText());
+                tableau =new JTable(r.SearchPatient(tab[0].getText(), tab[1].getText(), tab[2].getText(), tab[3].getText(), tab[4].getText(),tab[5].getText(),tab[6].getText()),r.tableColumnsName());
           } catch (SQLException ex) {
               Logger.getLogger(PanelEmployeeList.class.getName()).log(Level.SEVERE, null, ex);
           } catch (ClassNotFoundException ex) {
               Logger.getLogger(PanelEmployeeList.class.getName()).log(Level.SEVERE, null, ex);
           } 
+        
+          
+        
+        tableau.setRowHeight(20);
+        tableau.setAutoCreateRowSorter(true);
+        
+        //on l'affiche en l'ajoutant au panel
+        
+        result.setLayout(new BorderLayout());
+        result.add(tableau.getTableHeader(),BorderLayout.NORTH);
+        result.add(tableau);
+       
+        result.revalidate();
+        result.repaint();
           
       }
   }

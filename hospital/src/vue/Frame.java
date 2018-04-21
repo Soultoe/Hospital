@@ -28,7 +28,7 @@ public class Frame extends JFrame {
         //window setup
         super();
         this.setTitle("Hospital");
-        this.setSize(800, 800);
+        this.setSize(1000, 800);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         this.setBackground(Color.LIGHT_GRAY);

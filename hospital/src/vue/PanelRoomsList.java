@@ -26,20 +26,18 @@ public class PanelRoomsList extends JPanel{
     private final JFormattedTextField tab[]=new JFormattedTextField[fieldsNumber];
     private final TextPrompt tp[] = new TextPrompt[fieldsNumber];
     private final String txt[]={"Bâtiment", "Secteur", "nombre de lits", "n° chambre", "Surveillant" };
-
+ 
     //bouton pour demander la requête
     private final JButton b = new JButton ("Chercher");
     
-    //TextField for results
-    private JTextField results = new JTextField();
-   
-  
+    //Table for results
+    private JTable tableau;
+    JPanel p2 = new JPanel();
+    
     public PanelRoomsList(Search r)
     {
         this.setBackground(Color.LIGHT_GRAY);
         this.r=r;
-        
-        results.setPreferredSize(new Dimension(100,300));
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
         b.addActionListener(new BoutonListener());
@@ -50,6 +48,7 @@ public class PanelRoomsList extends JPanel{
         form.setLayout(g);
         form.setBorder(new EmptyBorder(50,30,30,30));
         form.setBackground(Color.LIGHT_GRAY);
+        
         
         //initialisation des cases d'entrée de texte
         for(int i=0;i<tab.length;i++)
@@ -64,13 +63,15 @@ public class PanelRoomsList extends JPanel{
             tp[i].changeStyle(Font.ITALIC);
         }
         
+        
+        
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.LINE_AXIS));
         p1.add(form);
         
-        JPanel p2 = new JPanel();
+        
         p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
-        p2.add(results);
+        p2.setPreferredSize(new Dimension(100, 300));
         
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.LINE_AXIS));
@@ -87,13 +88,29 @@ public class PanelRoomsList extends JPanel{
       @Override
       public void actionPerformed(ActionEvent e)
       {
-          try {
-                r.SearchRoom(tab[0].getText(), tab[1].getText(), tab[2].getText(), tab[3].getText(), tab[4].getText());
-          } catch (SQLException ex) {
-              Logger.getLogger(PanelEmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-          } catch (ClassNotFoundException ex) {
-              Logger.getLogger(PanelEmployeeList.class.getName()).log(Level.SEVERE, null, ex);
-          } 
+        //on supprimme tout
+        p2.removeAll();
+        p2.validate();
+        
+        try {
+              //on crée notre tableau
+              tableau = new JTable(r.SearchRoom(tab[0].getText(), tab[1].getText(), tab[2].getText(), tab[3].getText(), tab[4].getText()),r.tableColumnsName());
+              
+        } catch (SQLException ex) {
+            Logger.getLogger(PanelEmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(PanelEmployeeList.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+       
+        //on le met en page
+        tableau.getColumnModel().getColumn(3).setPreferredWidth(200);
+        tableau.setRowHeight(20);
+        tableau.setAutoCreateRowSorter(true);
+
+        //on l'affiche en l'ajoutant au panel
+        p2.add(new JScrollPane(tableau));
+        p2.revalidate();
+        p2.repaint();
           
       }
   }

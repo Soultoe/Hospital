@@ -39,15 +39,15 @@ public class PanelEmployeeList extends JPanel{
     private final JButton b = new JButton ("Chercher");
     
     //TextField for results
-    private JTextField results = new JTextField();
+    private JTable tableau;
+    JPanel result = new JPanel();   
+    private JTable tableau1;
    
   
     public PanelEmployeeList(Search r)
     {
         this.setBackground(Color.LIGHT_GRAY);
         this.r=r;
-        
-        results.setPreferredSize(new Dimension(100,300));
         
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         b.addActionListener(new BoutonListener());
@@ -82,7 +82,8 @@ public class PanelEmployeeList extends JPanel{
         
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
-        p2.add(results);
+        p2.setPreferredSize(new Dimension(100, 300));
+        p2.add(new JScrollPane(result));
         
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.LINE_AXIS));
@@ -95,23 +96,55 @@ public class PanelEmployeeList extends JPanel{
     }
     
     
+   public void employeeList(String department, String rotation, String speciality, String patient, String firstName, String lastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
+   {
+       
+       JTable tab[] = new JTable[2];
+       tab[0]= new JTable(r.SearchDoctor(speciality,patient, firstName,lastName,patientsNumberMin,patientsNumberMax),r.tableColumnsName());
+       tab[1]=new JTable(r.SearchNurse(department,rotation,lastName, firstName),r.tableColumnsName());
+       result.setLayout(new BoxLayout(result, BoxLayout.PAGE_AXIS));
+       for(int i=0;i<tab.length;i++)
+       { 
+           tab[i].setRowHeight(20);
+           tab[i].setAutoCreateRowSorter(true);
+           result.add(tab[i].getTableHeader());
+           result.add(tab[i]);
+       }
+       
+   }
     class BoutonListener implements ActionListener{
       @Override
       public void actionPerformed(ActionEvent e)
       {
+          result.removeAll();
+          result.validate();
+          
           try {
                 if((infirmier.isSelected()==true)&&(doctor.isSelected()==true))
                 {
-                    r.SearchEmployee(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),tab[5].getText(),tab[6].getText());
+                     employeeList(tab[4].getText(),(String)rotation.getSelectedItem(),tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),tab[5].getText(),tab[6].getText());
                 }
-                else if(infirmier.isSelected()==true)
-                {
-                    r.SearchNurse(tab[4].getText(),(String)rotation.getSelectedItem(),tab[1].getText(),tab[0].getText());
+                else if((infirmier.isSelected()==true)||(doctor.isSelected()==true)){
+                    
+                    result.setLayout(new BorderLayout());
+                    if(infirmier.isSelected()==true)
+                    {
+                        tableau = new JTable(r.SearchNurse(tab[4].getText(),(String)rotation.getSelectedItem(),tab[1].getText(),tab[0].getText()), r.tableColumnsName());
+                    }
+                    else if(doctor.isSelected()==true)
+                    {
+                        tableau =new JTable( r.SearchDoctor(tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),tab[5].getText(),tab[6].getText()),r.tableColumnsName());
+                    }
+                    
+                    tableau.setRowHeight(20);
+                    tableau.setAutoCreateRowSorter(true);
+
+                    //on l'affiche en l'ajoutant au panel
+
+                    result.add(tableau.getTableHeader(),BorderLayout.NORTH);
+                    result.add(tableau);
                 }
-                else if(doctor.isSelected()==true)
-                {
-                    r.SearchDoctor(tab[2].getText(),tab[3].getText(),tab[1].getText(),tab[0].getText(),tab[5].getText(),tab[6].getText());
-                }  
+                    
                 else
                 {
                    System.out.println("Rien à afficher"); 
@@ -119,6 +152,11 @@ public class PanelEmployeeList extends JPanel{
           } catch (SQLException | ClassNotFoundException ex) {
               Logger.getLogger(PanelEmployeeList.class.getName()).log(Level.SEVERE, null, ex);
           } 
+          
+        
+       
+        result.revalidate();
+        result.repaint();
           
       }
   }
