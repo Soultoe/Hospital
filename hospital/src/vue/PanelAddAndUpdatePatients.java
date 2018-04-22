@@ -30,6 +30,7 @@ import model.Update;
  */
 public class PanelAddAndUpdatePatients extends JPanel {
 
+    //components
     private final JPanel form;
     private final JButton send;
     private final JTextField results;
@@ -40,6 +41,7 @@ public class PanelAddAndUpdatePatients extends JPanel {
     private final String[] commonNames = {"id", "name", "surname", "address", "phone", "social security", "assigned doctor", "department", "room", "bed"};
     private final TextPrompt[] tp = new TextPrompt[commonNames.length];
 
+    //objects used for the requests
     private final Update updateObj;
     private final Add addObj;
 
@@ -48,6 +50,8 @@ public class PanelAddAndUpdatePatients extends JPanel {
      * @param con
      */
     public PanelAddAndUpdatePatients(Connexion con) {
+        
+        //init of every object + listeners
         updateObj = new Update(con);
         addObj = new Add(con);
 
@@ -105,6 +109,7 @@ public class PanelAddAndUpdatePatients extends JPanel {
 
         }
 
+        //creation of layout
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         JPanel p1 = new JPanel();

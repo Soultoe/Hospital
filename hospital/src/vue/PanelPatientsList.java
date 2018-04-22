@@ -43,6 +43,8 @@ public class PanelPatientsList extends JPanel {
      * @throws ClassNotFoundException
      */
     public PanelPatientsList(Search r) throws SQLException, ClassNotFoundException {
+        
+        //init of objects
         this.setBackground(Color.LIGHT_GRAY);
         this.r = r;
 
@@ -69,6 +71,7 @@ public class PanelPatientsList extends JPanel {
             tp[i].changeStyle(Font.ITALIC);
         }
 
+        //creation of layout
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
         p1.add(form);

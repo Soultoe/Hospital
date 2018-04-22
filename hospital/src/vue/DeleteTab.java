@@ -26,15 +26,25 @@ import javax.swing.JPanel;
  */
 public class DeleteTab extends JPanel{
     
-    private JLabel employee,patient;
+    //components of the label
+    private final JLabel employee;
+    private final JLabel patient;
     private JCheckBox doc,nurse;
-    private JFormattedTextField employeeNum, patientNum;
-    private JButton sendEmployee, sendPatient;
+    private final JFormattedTextField employeeNum;
+    private final JFormattedTextField patientNum;
+    private final JButton sendEmployee;
+    private final JButton sendPatient;
     
-    private Delete delete;
+    //object used for the requests
+    private final Delete delete;
     
+    /**
+     * 
+     * @param con 
+     */
     public DeleteTab(Connexion con)
     {
+        //init of every component + listeners
         this.setBackground(Color.LIGHT_GRAY);
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
@@ -86,6 +96,7 @@ public class DeleteTab extends JPanel{
         delete = new Delete(con);
         
         
+        //creation of the layout
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.LINE_AXIS));
         p1.add(doc);
@@ -124,6 +135,10 @@ public class DeleteTab extends JPanel{
         this.add(p7);
     }
     
+    /**
+     * 
+     * @throws SQLException 
+     */
     public void sendRequestEmp() throws SQLException
     {
         try {
@@ -140,6 +155,10 @@ public class DeleteTab extends JPanel{
 
     }
     
+    /**
+     * 
+     * @throws SQLException 
+     */
     public void sendRequestPatient() throws SQLException
     {
         try

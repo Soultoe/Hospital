@@ -5,11 +5,8 @@
  */
 
 package hospital;
-import model.*;
 import vue.*;
 import java.sql.SQLException;
-import java.util.Scanner;
-import org.jfree.data.general.DefaultPieDataset;
 
 /**
  *
@@ -19,6 +16,8 @@ public class Hospital {
 
     /**
      * @param args the command line arguments
+     * @throws java.sql.SQLException
+     * @throws java.lang.ClassNotFoundException
      */
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
  

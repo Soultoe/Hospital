@@ -50,6 +50,8 @@ public class PanelAddAndUpdateRoom extends JPanel {
      * @param con
      */
     public PanelAddAndUpdateRoom(Connexion con) {
+        
+        //inti of objects
         updateObj = new Update(con);
         addObj = new Add(con);
 
@@ -106,6 +108,7 @@ public class PanelAddAndUpdateRoom extends JPanel {
 
         }
 
+        //creation of layout
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
 
         JPanel p1 = new JPanel();

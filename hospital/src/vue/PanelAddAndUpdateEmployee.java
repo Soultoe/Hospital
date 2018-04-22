@@ -33,24 +33,24 @@ import javax.swing.border.EmptyBorder;
 public class PanelAddAndUpdateEmployee extends JPanel{
     
     //Components of the panel and their content
-    private JPanel form;
-    private JButton send;
-    private JTextField results;
+    private final JPanel form;
+    private final JButton send;
+    private final JTextField results;
     private JCheckBox update,add;
     private JComboBox combo;
     private String[] fields;
     
     //Texfields for the user and their names/preset text
-    private JFormattedTextField[] commons;
-    private String[] commonNames = {"id","name","surname","address","phone"};
-    private TextPrompt[] tp = new TextPrompt[commonNames.length];
+    private final JFormattedTextField[] commons;
+    private final String[] commonNames = {"id","name","surname","address","phone"};
+    private final TextPrompt[] tp = new TextPrompt[commonNames.length];
     private JFormattedTextField[] specifics;
-    private String[] specificNames = {"speciality","dept","rotation","wage"};
-    private TextPrompt[]tp2 = new TextPrompt[specificNames.length];
+    private final String[] specificNames = {"speciality","dept","rotation","wage"};
+    private final TextPrompt[]tp2 = new TextPrompt[specificNames.length];
     
     //objects used to send requests to the database
-    private Update updateObj;
-    private Add addObj;
+    private final Update updateObj;
+    private final Add addObj;
     
     /**
      * 
@@ -59,6 +59,7 @@ public class PanelAddAndUpdateEmployee extends JPanel{
      */
     public PanelAddAndUpdateEmployee(Connexion con,int type)
     {
+        //init of objects
         updateObj = new Update(con);
         addObj = new Add(con);
         
@@ -171,6 +172,7 @@ public class PanelAddAndUpdateEmployee extends JPanel{
             }
         }
         
+        //creation of layout
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
         JPanel p1 = new JPanel();

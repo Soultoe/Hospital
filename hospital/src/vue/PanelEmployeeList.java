@@ -79,6 +79,7 @@ public class PanelEmployeeList extends JPanel {
         form.add(doctor);
         form.add(infirmier);
 
+        //creation of layout
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
         p1.add(form);
