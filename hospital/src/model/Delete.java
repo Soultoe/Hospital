@@ -26,19 +26,23 @@ public class Delete extends Action{
     {
         String request,heal;
         
-        if(doctor){
-            request = "DELETE FROM docteur WHERE numero = " + id + ";";
-            heal = "DELETE FROM soigne WHERE no_docteur = " + id + ";";
-            this.delete(heal);
+        try {
+            if (doctor) {
+                request = "DELETE FROM docteur WHERE numero = " + id + ";";
+                heal = "DELETE FROM soigne WHERE no_docteur = " + id + ";";
+                this.delete(heal);
+            } else {
+                request = "DELETE FROM infirmier WHERE numero = " + id + ";";
+            }
+
+            this.delete(request);
+
+            request = "DELETE FROM employe WHERE numero = " + id + ";";
+
+            this.delete(request);
+        } catch (SQLException e) {
+            System.out.println("deletion error.");
         }
-        else
-            request = "DELETE FROM infirmier WHERE numero = " + id + ";";
-        
-        this.delete(request);
-        
-        request = "DELETE FROM employe WHERE numero = " + id + ";";
-        
-        this.delete(request);
     }
     
     public void deletePatient(String id) throws SQLException
@@ -49,9 +53,15 @@ public class Delete extends Action{
         heal = "DELETE FROM soigne WHERE no_malade = " + id + ";";
         hospitalize = "DELETE FROM hospitalisation WHERE no_malade = " + id + ";";
         
-        this.delete(patient);
-        this.delete(heal);
-        this.delete(hospitalize);
+        try 
+        {
+            this.delete(patient);
+            this.delete(heal);
+            this.delete(hospitalize);
+        } catch (SQLException e) 
+        {
+            System.out.println("deletion error.");
+        }
     }
     
 }
