@@ -18,11 +18,11 @@ import java.sql.SQLException;
 public class Frame extends JFrame {
     
     //Container of tabs
-    private JTabbedPane connexionType;
+    private final JTabbedPane connexionType;
     
     //JPanels contained in the tabs
-    private PanelRoot local;
-    private PanelRoot distant;
+    private final PanelRoot local;
+    private final PanelRoot distant;
     
     /**
      * 
