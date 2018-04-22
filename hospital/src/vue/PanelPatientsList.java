@@ -27,7 +27,7 @@ public class PanelPatientsList extends JPanel {
     //champs d'entrée de texte
     private final JFormattedTextField tab[] = new JFormattedTextField[fieldsNumber];
     private final TextPrompt tp[] = new TextPrompt[fieldsNumber];
-    private final String txt[] = {"Nom", "Prénom", "Mutuelle", "Code secteur", "n° chambre", "n° lit", "Docteur"};
+    private final String txt[] = {"ID", "Nom Prénom", "Mutuelle", "Code secteur", "n° chambre", "n° lit", "Docteur"};
 
     //bouton pour demander la requête
     private final JButton b = new JButton("Chercher");

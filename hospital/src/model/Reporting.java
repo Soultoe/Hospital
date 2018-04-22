@@ -11,8 +11,8 @@ import java.util.ArrayList;
  *
  * @author User
  */
-//je suis entrain de réflechir à peut être en faire une classe qui hériterait de Search
 public class Reporting extends Action {
+    //initialisation des variables
     private String requete;
     
     /**
@@ -32,9 +32,11 @@ public class Reporting extends Action {
      */
     public String[] tableColumnsName() throws SQLException, ClassNotFoundException
     {
+        //on récupère les noms de chaque colonne de la table résultant de notre requête
         String columnNames = con.remplirChampsTable(requete).toString().replace("[ ","");
         columnNames = columnNames.replace("\n]","");
-//         String columnNames = con.remplirChampsTable("SELECT "+select+" FROM "+from).toString();
+        
+        //on les stock dans une matrice de string
         String title[]=columnNames.split(" ");
         return title;
     }
@@ -60,11 +62,17 @@ public class Reporting extends Action {
      */
     public String[][] convertToString(ArrayList SQLresult)
     {
+        //on récupère le nombre de lignes que fait le résultat de notre requête
         int nbRows = SQLresult.size();
+        
+        //on compte également le nombre de colonnes
         int nbColumns=SQLresult.get(0).toString().length() - SQLresult.get(0).toString().replace(",","").length()+1;
+        
+        //initialisation des variables
         String columnValues[];
         String values[][]=new String[nbRows][nbColumns];
         
+        //on stock le contenu de notre arraylist dans une matrice de String à 2 dimensions
         for(int i=0; i<nbRows;i++)
         {
             columnValues=SQLresult.get(i).toString().split(",");
@@ -89,6 +97,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingNurse() throws SQLException, ClassNotFoundException
     {
+        //cette requête retourne les informations suivantes : service, effectif, nombre de malades, salaire moyen, effectif par roation et par service, et nombre de malades par infirmier
         requete = "SELECT s.nom as \"service\", nb as \"effectif\", nb_m as \"malades\", moy as \"salaireMoyen\",  rotation, count(rotation) as \"effectifRot\", nb_m/nb as \"mal/inf\" from infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join (SELECT code_service, count(no_malade) as nb_m from hospitalisation group by code_service) cm on cm.code_service = cs.code_service inner join service s on s.code = cs.code_service group by cs.code_service, rotation";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -103,6 +112,7 @@ public class Reporting extends Action {
      */
     public String[][] dayWorkforce() throws SQLException, ClassNotFoundException
     {
+        //cette requête retourne le nombre d'infirmiers travaillant le jour par service
         requete = "SELECT s.nom, rotation, count(rotation) from infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join service s on s.code = cs.code_service where rotation='JOUR' group by cs.code_service, rotation";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -117,6 +127,7 @@ public class Reporting extends Action {
      */
     public String[][] nightWorkforce() throws SQLException, ClassNotFoundException
     {
+        //cette requête retourne le nombre d'infirmiers travaillant la nuit par service
         requete = "select s.nom, rotation, count(rotation) from infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join service s on s.code = cs.code_service where rotation='NUIT' group by cs.code_service, rotation";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -131,6 +142,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingDoctor() throws SQLException, ClassNotFoundException
     {
+        //cette requête retourne le nombre de docteurs et de malades par spé, et la moyenne du nombre de malades par docteurs par spé
         requete =  "select d.specialite, count(d.specialite) as \"effectif\", nb_malades as \"malades\", nb_malades/count(d.specialite) as \"mal/doc\" from docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m where d.specialite = m.specialite group by d.specialite";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -145,6 +157,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingEmployee() throws SQLException, ClassNotFoundException
     {
+        //cette requête permet d'obtenir l'effectif total d'infirmiers et de docteurs dans l'hôpital
         requete="SELECT nb_inf, nb_doc from (SELECT count(DISTINCT numero) as nb_doc from docteur) d inner join (SELECT count(DISTINCT numero) as nb_inf from infirmier) i";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -159,6 +172,7 @@ public class Reporting extends Action {
      */
     public String[][] roomsAndBedsAvaibility() throws SQLException, ClassNotFoundException
     {
+        //cette requête permet d'obtenir le nombre de chambres et de lits occupés, totaux et libres
         requete="select batiment, nom, count(c.no_chambre), sum(nb_lits), ch_occupee, (count(c.no_chambre)-ch_occupee), lit_occupe, sum(nb_lits)-lit_occupe from chambre c, service, (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h where code = c.code_service and (h.code_service = c.code_service) group by batiment, c.code_service";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -173,6 +187,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingRoom() throws SQLException, ClassNotFoundException
     {
+        //cette requête retourne le batiment, nom du service, total chambres, total lts, chambres et lits occupés, et nombre de surveillants / service
         requete="select batiment as bat, nom, count(c.no_chambre) as totCh, sum(nb_lits) as totLits, ch_occupee as \"chOccupées\", lit_occupe as \"litOccupé\", nb_sur nbSurv from service INNER JOIN chambre c ON code = c.code_service INNER JOIN (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h ON h.code_service = c.code_service INNER JOIN (select code_service, count(DISTINCT surveillant) as nb_sur from chambre group by code_service) as sur ON sur.code_service = c.code_service group by batiment, c.code_service";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -206,177 +221,4 @@ public class Reporting extends Action {
     }
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-//    public void toutesMesRequetesSqlaSupprimierPlusTard() throws SQLException, ClassNotFoundException
-//    {
-//        System.out.println("Vous voulez quoi? \n 1 - salaire moyen d'un infirmier \n 2 - salaire moyen d'un infirmier par service \n 3 - salaire moyen et effectif d'infirmiers par service"
-//                + "\n 4 - salaire moyen | effcetif | nb rotation jour/nuit le tout par service"
-//                + "\n 5 - nb de rotation jour/nuit"
-//                + "\n 6 - service | salaire moyen | salaire moyen par rotation| effectif | rotation ");
-//        Scanner sc = new Scanner(System.in);
-//        int choice = sc.nextInt();
-//        switch(choice)
-//        {
-//            case 1 :
-//                System.out.print("Choix 1 : le salaire moyen d'un infirmier :");
-//                select = "avg(salaire)";
-//                from = "infirmier";
-//                where = "salaire like '%%'";
-//                break;
-//            case 2 : 
-//                System.out.print("Choix 2 : le salaire moyen d'un infirmier par service :");
-//                select = "code_service, avg(salaire)";
-//                from = "infirmier";
-//                where = "salaire like '%%' group by code_service";
-//                break;
-//            case 3 : 
-//                System.out.print("Choix 3 : Service | effectif infirmir | salaire moyen");
-//                select = "code_service, avg(salaire), count(code_service)";
-//                from = "infirmier";
-//                where = "salaire like '%%' group by code_service";
-//                break;
-//            case 4 : 
-//                System.out.print("Choix 4 : Service | effectif infirmier | salaire moyen | rotation");
-//                select = "cs.code_service, nb, moy,  rotation, count(rotation)";
-//                from = "infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service ";
-//                where = "salaire like '%%' group by cs.code_service, rotation";
-//                break;
-//              case 5 : 
-//                System.out.print("Choix 5 : rotation | salaire moyen rotation");
-//                select =  "rotation, count(rotation)";
-//                from = "infirmier";
-//                where = "salaire like '%%' group by rotation";
-//                break;
-//              case 6 : 
-//                System.out.print("Choix 6 : Service | effectif infirmier | salaire moyen | salaire moyen rotation service | rotation");
-//                select =  " cs.code_service, nb, moy, avg(salaire),  rotation, count(rotation)";
-//                from = "infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service";
-//                where = "salaire like '%%' group by code_service, rotation";
-//                break;
-//                
-//              case 7 :
-//                System.out.print("Choix 7 : nb de docteurs par spécialité");
-//                select =  " specialite, count(specialite)";
-//                from = "docteur";
-//                where = "specialite like '%%' group by specialite";
-//                break;
-//                
-//              case 8 :
-//                System.out.print("Choix 8 : nb de docteurs et de patients par spécialité");
-//                select =  "d.specialite, count(d.specialite), nb_malades";
-//                from = "docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m ";
-//                where = "d.specialite = m.specialite group by d.specialite";
-//                break;
-//                
-//               case 9 :
-//                System.out.print("Choix 9 : moy patients par docteur");
-//                select =  "nom, prenom, count(no_malade)";
-//                from = "docteur d, employe e, soigne s";
-//                where = "e.numero = d.numero and no_docteur = d.numero group by d.numero";
-//                break;
-//                
-//               case 10 :
-//                System.out.print("Choix 10 : nombre de chambres par service");
-//                select =  "code_service, count(no_chambre)";
-//                from = "chambre";
-//                where = "no_chambre like '%%' code_service";
-//                break;
-//                
-//               case 11 :
-//                    System.out.print("Choix 11 : nombre de chambre par service par batiment (mdr la requete qui sert à rien)");
-//                    select =  "batiment, code_service, count(no_chambre) ";
-//                    from = "chambre, service";
-//                    where = "code = code_service group by batiment, code_service";
-//                    break;
-//                
-//                case 12 :
-//                    System.out.print("Choix 12 : nombre de lits par service");
-//                   select =  " batiment,  c.code_service, count(c.no_chambre), sum(nb_lits)";
-//                    from = "chambre c, service";
-//                    where = "code = c.code_service group by batiment, c.code_service";
-//                    break;
-//                  
-//                    
-//                case 13 :
-//                    System.out.print("Choix 13 : moyenne de lits par chambre par service");
-//                    select =  "batiment,  c.code_service, count(c.no_chambre), sum(nb_lits), sum(nb_lits)/count(c.no_chambre)";
-//                    from = "chambre c, service";
-//                    where = "code = c.code_service group by batiment, c.code_service";
-//                    break;
-//                    
-//                    
-//               case 14 :
-//                    System.out.print("Choix 14 : % chambres occupées par service");
-//                    select =  "batiment,  c.code_service, count(c.no_chambre), sum(nb_lits), ch_occupee, ch_occupee/count(c.no_chambre)*100";
-//                    from = "chambre c, service, (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee from hospitalisation group by code_service) h";
-//                    where = "code = c.code_service and (h.code_service = c.code_service) group by batiment, c.code_service";
-//                    break;
-//                    
-//               case 15 :
-//                    System.out.print("Choix 14 : % lits occupés par service");
-//                    select =  "batiment, c.code_service, count(c.no_chambre), sum(nb_lits), ch_occupee, lit_occupe, ch_occupee/count(c.no_chambre)*100, lit_occupe/sum(nb_lits)*100 ";
-//                    from = "chambre c, service, (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h";
-//                    where = "code = c.code_service and (h.code_service = c.code_service) group by batiment, c.code_service";
-//                    break;
-//                    
-//              case 16 :
-//                    System.out.print("Choix 16 : % de médecins par patients");
-//                    select =  "count(DISTINCT no_malade), count(no_docteur) , count(no_docteur)/count(DISTINCT no_malade)";
-//                    from = "soigne";
-//                    where = "no_malade like '%%'";
-//                    break;
-//                    
-//                    
-//              case 17 :
-//                    System.out.print("Choix 17 : % de patients par médecins pour chaque spé");
-//                    select =  "d.specialite, count(d.specialite), nb_malades, nb_malades/count(d.specialite)";
-//                    from = "docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m ";
-//                    where = "d.specialite = m.specialite group by d.specialite";
-//                    break;
-//                    
-//              case 18 :
-//                    System.out.print("Choix 18 : nombre de malades par service , nombre d'infirmiers par service et % d'infirmiers par patient pour chaque secteur");
-//                    select =  "h.code_service, count(DISTINCT no_malade), count(DISTINCT numero), count(DISTINCT numero) /count(DISTINCT no_malade) ";
-//                    from = "hospitalisation h, infirmier i";
-//                    where = "i.code_service = h.code_service group by h.code_service";
-//                    break;
-//              case 19 :
-//                    System.out.print("Choix 19 : % de malades hospitalisés");
-//                    select =  "count(DISTINCT numero), count(DISTINCT no_malade), count(DISTINCT no_malade)/ count(DISTINCT numero) * 100 ";
-//                    from = "hospitalisation, malade";
-//                    where = "numero like '%%'";
-//                    break;
-//                    
-//              case 20 :
-//                    System.out.print("Choix 20 : nombre de survaillants par chambre");
-//                    select =  "count(*), count(DISTINCT surveillant), count(DISTINCT surveillant)/count(*)";
-//                    from = "chambre";
-//                    where = "surveillant like '%%'";
-//                    break;
-//            default :;
-//        }
-//        this.SearchWithWhere();
-//        
-//    }
-//    
-//}
-}
+ }
