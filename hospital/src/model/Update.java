@@ -39,24 +39,45 @@ public class Update extends Action {
      * @throws SQLException 
      */
     public String buildRequestEmployee(boolean dOrN, String[] fields) throws SQLException {
+        
+        boolean[] emptyFields = new boolean[fields.length];
+        for (int i=0;i<fields.length;i++) {
+            emptyFields[i] = !fields[i].equals("");
+        }
+        
+        String adress,tel; adress = tel = "";
+        
+        if(emptyFields[3])
+            if(emptyFields[4])
+                adress = "adresse = '" + fields[3] + "', ";
+            else
+                adress = "adresse = '" + fields[3] + "'";
+        if(emptyFields[4])
+            tel = "tel = '" + fields[4] + "'";
+        
         try {
-            String emp = "UPDATE employe SET nom = '" + fields[1] + "', prenom = '" + fields[2] + "', adresse = '" + fields[3] + "', tel = '" + fields[4] + "' WHERE numero = " + fields[0] + ";";
-            System.out.println(emp);
-            String type;
-
-            this.getUpdate(emp);
-
-            if (dOrN) { //means doctor
-                type = "UPDATE docteur SET specialite = '" + fields[5] + "' WHERE numero = " + fields[0] + ";";
-                System.out.println(type);
-                this.getUpdate(type);
+            
+            if ("".equals(adress) && "".equals(tel)) {
+                return "modifiez le champ d'adresse ou de téléphone.";
             } else {
-                type = "UPDATE infirmier SET code_service = '" + fields[5] + "', rotation = '" + fields[6] + "', salaire = '" + fields[7] + "' WHERE numero = " + fields[0] + ";";
-                System.out.println(type);
-                this.getUpdate(type);
-            }
+                String emp = "UPDATE employe SET " + adress + tel + " WHERE numero = " + fields[0] + ";";
+                System.out.println(emp);
+                String type;
 
-            return "Mise à Jour Réussie!";
+                this.getUpdate(emp);
+
+                if (dOrN) { //means doctor
+                    type = "UPDATE docteur SET specialite = '" + fields[5] + "' WHERE numero = " + fields[0] + ";";
+                    System.out.println(type);
+                    this.getUpdate(type);
+                } else {
+                    type = "UPDATE infirmier SET code_service = '" + fields[5] + "', rotation = '" + fields[6] + "', salaire = '" + fields[7] + "' WHERE numero = " + fields[0] + ";";
+                    System.out.println(type);
+                    this.getUpdate(type);
+                }
+
+                return "Mise à Jour Réussie!";
+            }
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
@@ -70,6 +91,12 @@ public class Update extends Action {
      * @throws SQLException 
      */
     public String buildRequestPatients(String[] fields) throws SQLException {
+        
+        boolean[] emptyFields = new boolean[fields.length];
+        for (int i=0;i<fields.length;i++) {
+            emptyFields[i] = !fields[i].equals("");
+        }
+        
         try {
             String patient = "UPDATE malade SET nom = '" + fields[1] + "', prenom = '" + fields[2] + "', adresse = '" + fields[3] + "', tel = '" + fields[4] + "', mutuelle = '" + fields[5] + "' WHERE numero = " + fields[0] + ";";
             String heal = "UPDATE soigne SET no_docteur = '" + fields[6] + "' WHERE no_malade = " + fields[0] + ";";
@@ -100,11 +127,7 @@ public class Update extends Action {
         
         boolean[] emptyFields = new boolean[fields.length];
         for (int i=0;i<fields.length;i++) {
-            if (fields[i].equals("")) {
-                emptyFields[i] = false;
-            }
-            else
-                emptyFields[i] = true   ;
+            emptyFields[i] = !fields[i].equals("");
         }
         
         String batiment,directeur; batiment = directeur = "";
@@ -144,11 +167,7 @@ public class Update extends Action {
 
         boolean[] emptyFields = new boolean[fields.length];
         for (int i=0;i<fields.length;i++) {
-            if (fields[i].equals("")) {
-                emptyFields[i] = false;
-            }
-            else
-                emptyFields[i] = true   ;
+            emptyFields[i] = !fields[i].equals("");
         }
         
         String surveillant,nb_lits; surveillant = nb_lits = "";
