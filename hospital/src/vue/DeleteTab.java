@@ -39,9 +39,12 @@ public class DeleteTab extends JPanel{
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
         
         employee = new JLabel("Delete an employee");
+        employee.setBackground(Color.LIGHT_GRAY);
         patient = new JLabel("Delete a Patient");
+        patient.setBackground(Color.LIGHT_GRAY);
         
         doc = new JCheckBox("doc");
+        doc.setBackground(Color.LIGHT_GRAY);
         doc.addActionListener((ActionEvent event) -> {
             if(nurse.isSelected())
                 nurse.setSelected(false);
@@ -50,6 +53,7 @@ public class DeleteTab extends JPanel{
         });
         
         nurse = new JCheckBox("nurse");
+        nurse.setBackground(Color.LIGHT_GRAY);
         nurse.addActionListener((ActionEvent event) -> {
             if(doc.isSelected())
                 doc.setSelected(false);
@@ -90,12 +94,18 @@ public class DeleteTab extends JPanel{
         JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
         p2.add(employeeNum);
-        p2.add(sendEmployee);
+        
+        JPanel p6 = new JPanel();
+        p6.setLayout(new BoxLayout(p6,BoxLayout.LINE_AXIS));
+        p6.add(sendEmployee);
         
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.LINE_AXIS));
         p3.add(patientNum);
-        p3.add(sendPatient);
+        
+        JPanel p7 = new JPanel();
+        p7.setLayout(new BoxLayout(p7,BoxLayout.LINE_AXIS));
+        p7.add(sendPatient);
         
         JPanel p4 = new JPanel();
         p4.setLayout(new BoxLayout(p4,BoxLayout.LINE_AXIS));
@@ -108,22 +118,39 @@ public class DeleteTab extends JPanel{
         this.add(p4);
         this.add(p1);
         this.add(p2);
+        this.add(p6);
         this.add(p5);
         this.add(p3);
+        this.add(p7);
     }
     
     public void sendRequestEmp() throws SQLException
     {
-        if(doc.isSelected())
-            delete.deleteEmployee(employeeNum.getText(), true);
-        else
-            delete.deleteEmployee(employeeNum.getText(), false);
-        
+        try {
+            if (doc.isSelected()) {
+                delete.deleteEmployee(employeeNum.getText(), true);
+            } else {
+                delete.deleteEmployee(employeeNum.getText(), false);
+            }
+            
+            employeeNum.setText("Deletion successful");
+        } catch (SQLException e) {
+            employeeNum.setText("Deletion failed");
+        }
+
     }
     
     public void sendRequestPatient() throws SQLException
     {
+        try
+        {
         delete.deletePatient(patientNum.getText());
+        patientNum.setText("Deletion successful");
+        }
+        catch(SQLException e)
+        {
+            patientNum.setText("Deletion failed");
+        }
     }
     
 }
