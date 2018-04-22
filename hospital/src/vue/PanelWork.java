@@ -48,7 +48,7 @@ public class PanelWork extends JPanel{
             addAndUpdateTabs[i] = new AddAndUpdateTab(con,i);
         
         //reporting Tab init
-        reportingTab = new ReportingTab();
+        reportingTab = new ReportingTab(con);
         
         //LAYOUT AND EMBRICATING PART
         

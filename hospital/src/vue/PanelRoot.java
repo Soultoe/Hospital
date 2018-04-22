@@ -9,6 +9,7 @@ import hospital.Connexion;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -23,7 +24,7 @@ public class PanelRoot extends JPanel{
     private JButton quit;
     //will be a border layout
     
-    public PanelRoot(Connexion con)
+    public PanelRoot(Connexion con) throws SQLException, ClassNotFoundException
     {
         this.setBackground(Color.LIGHT_GRAY);
         

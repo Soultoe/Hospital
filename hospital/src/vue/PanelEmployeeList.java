@@ -100,18 +100,21 @@ public class PanelEmployeeList extends JPanel{
    {
        
        JTable tab[] = new JTable[2];
+       String labels[]={"Liste des dcteurs","Liste des infirmiers"};
        tab[0]= new JTable(r.SearchDoctor(speciality,patient, firstName,lastName,patientsNumberMin,patientsNumberMax),r.tableColumnsName());
-       tab[1]=new JTable(r.SearchNurse(department,rotation,lastName, firstName),r.tableColumnsName());
+       tab[1]= new JTable(r.SearchNurse(department,rotation,lastName, firstName),r.tableColumnsName());
        result.setLayout(new BoxLayout(result, BoxLayout.PAGE_AXIS));
        for(int i=0;i<tab.length;i++)
        { 
            tab[i].setRowHeight(20);
            tab[i].setAutoCreateRowSorter(true);
+           result.add(new JLabel(labels[i]));
            result.add(tab[i].getTableHeader());
            result.add(tab[i]);
        }
        
    }
+   
     class BoutonListener implements ActionListener{
       @Override
       public void actionPerformed(ActionEvent e)

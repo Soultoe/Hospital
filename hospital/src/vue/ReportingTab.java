@@ -5,10 +5,13 @@
  */
 package vue;
 
+import hospital.Connexion;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.sql.SQLException;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
+import model.Reporting;
 
 /**
  *
@@ -16,16 +19,18 @@ import javax.swing.JTabbedPane;
  */
 public class ReportingTab extends JPanel{
     
+    private Connexion con;
     private JTabbedPane types;
-    private JPanel provisoire1,provisoire2,provisoire3;
+    private JPanel provisoire2,provisoire3;
+    private ReportingEmployee reportingEmployee;
+    private ReportingDoctor reportingDoctor;
     
-    public ReportingTab()
+    public ReportingTab(Connexion con) throws SQLException, ClassNotFoundException
     {
-        provisoire1 = new JPanel();
-        provisoire1.setBackground(Color.GREEN);
+        this.con = con;
+        reportingEmployee = new ReportingEmployee(con);
+        reportingDoctor = new ReportingDoctor(con);
         
-        provisoire2 = new JPanel();
-        provisoire2.setBackground(Color.RED);
         
         provisoire3 = new JPanel();
         provisoire3.setBackground(Color.BLUE);
@@ -35,8 +40,8 @@ public class ReportingTab extends JPanel{
         this.setBackground(Color.LIGHT_GRAY);
         this.setLayout(new GridLayout(1,1));
         
-        types.addTab("onglet1",provisoire1);
-        types.addTab("onglet2",provisoire2);
+        types.addTab("onglet1",reportingEmployee);
+        types.addTab("onglet2",reportingDoctor);
         types.addTab("onglet3",provisoire3);
         
         this.add(types);

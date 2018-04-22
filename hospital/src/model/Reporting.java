@@ -7,6 +7,7 @@ package model;
 import hospital.*;
 import java.util.Scanner;
 import java.sql.SQLException;
+import java.util.ArrayList;
 /**
  *
  * @author User
@@ -21,18 +22,113 @@ public class Reporting {
         this.con=con;
     }
     
-    public void SearchWithWhere() throws SQLException, ClassNotFoundException
+    public String[] tableColumnsName() throws SQLException, ClassNotFoundException
     {
-        System.out.println(con.remplirChampsRequete("SELECT "+select+" FROM "+from+" WHERE "+where));
+        String columnNames = con.remplirChampsTable("SELECT "+select+" FROM "+from).toString().replace("[ ","");
+        columnNames = columnNames.replace("\n]","");
+//         String columnNames = con.remplirChampsTable("SELECT "+select+" FROM "+from).toString();
+        String title[]=columnNames.split(" ");
+        return title;
     }
     
-    public void Moyennes() throws SQLException, ClassNotFoundException
+    //cette méthode retourne le résultat d'une requête SQL sans condition WHERE, mais avec possible condtion GROUP BY ou autre
+    public ArrayList SearchWithoutWhere() throws SQLException, ClassNotFoundException
     {
-        select ="";
-        from= "";
-        where= "";
-        this.SearchWithWhere();
+        return con.remplirChampsRequete("SELECT "+select+" FROM "+from+where);
     }
+    
+    //cette méthode retourne le résultat d'une requête SQL avec une ou plusieurs conditions WHERE
+    public ArrayList SearchWithWhere() throws SQLException, ClassNotFoundException
+    {
+        return con.remplirChampsRequete("SELECT "+select+" FROM "+from+" WHERE "+where);
+    }
+    
+    //cette méthode sert à convertir l'ArrayList en une matrice de String à 2 dimensions
+    public String[][] convertToString(ArrayList SQLresult)
+    {
+        int nbRows = SQLresult.size();
+        int nbColumns=SQLresult.get(0).toString().length() - SQLresult.get(0).toString().replace(",","").length()+1;
+        String columnValues[];
+        String values[][]=new String[nbRows][nbColumns];
+        
+        for(int i=0; i<nbRows;i++)
+        {
+            columnValues=SQLresult.get(i).toString().split(",");
+            for(int j=0; j<nbColumns;j++)
+            {
+               values[i][j]=columnValues[j];
+               
+            }
+            
+        }
+        return values;
+    }
+    
+    
+    //I.Employés
+    //a. Les infirmiers
+    public String[][] reportingNurse() throws SQLException, ClassNotFoundException
+    {
+        select = "s.nom as \"service\", nb as \"effectif\", nb_m as \"malades\", moy as \"salaireMoyen\",  rotation, count(rotation) as \"effectifRot\", nb/nb_m as \"inf/mal\"";
+        from = "infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join (SELECT code_service, count(no_malade) as nb_m from hospitalisation group by code_service) cm on cm.code_service = cs.code_service inner join service s on s.code = cs.code_service"; 
+        where = " group by cs.code_service, rotation";
+        String finalTab[][]=this.convertToString(this.SearchWithoutWhere());
+
+        return finalTab;
+    }
+    
+    public String[][] dayWorkforce() throws SQLException, ClassNotFoundException
+    {
+        select = "s.nom, rotation, count(rotation)";
+        from = "infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join service s on s.code = cs.code_service"; 
+        where = " rotation='JOUR' group by cs.code_service, rotation";
+        String finalTab[][]=this.convertToString(this.SearchWithWhere());
+
+        return finalTab;
+    }
+    
+    public String[][] nightWorkforce() throws SQLException, ClassNotFoundException
+    {
+        select = "s.nom, rotation, count(rotation)";
+        from = "infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join service s on s.code = cs.code_service"; 
+        where = " rotation='NUIT' group by cs.code_service, rotation";
+        String finalTab[][]=this.convertToString(this.SearchWithWhere());
+
+        return finalTab;
+    }
+    
+    public String[][] reportingDoctor() throws SQLException, ClassNotFoundException
+    {
+        select =  "d.specialite, count(d.specialite), nb_malades, count(d.specialite)/nb_malades ";
+        from = "docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m ";
+        where = "d.specialite = m.specialite group by d.specialite";
+        String finalTab[][]=this.convertToString(this.SearchWithWhere());
+
+        return finalTab;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     public void toutesMesRequetesSqlaSupprimierPlusTard() throws SQLException, ClassNotFoundException
     {

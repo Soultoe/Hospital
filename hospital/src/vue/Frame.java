@@ -10,6 +10,7 @@ import model.*;
 import hospital.*;
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 /**
  *
  * @author User
@@ -23,7 +24,7 @@ public class Frame extends JFrame {
     private PanelRoot local;
     private PanelRoot distant;
     
-    public Frame(Connexion localCon, Connexion distantCon)
+    public Frame(Connexion localCon, Connexion distantCon) throws SQLException, ClassNotFoundException
     {
         //window setup
         super();

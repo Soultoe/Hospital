@@ -32,7 +32,7 @@ public class PanelRoomsList extends JPanel{
     
     //Table for results
     private JTable tableau;
-    JPanel p2 = new JPanel();
+    JPanel result = new JPanel();
     
     public PanelRoomsList(Search r)
     {
@@ -70,8 +70,10 @@ public class PanelRoomsList extends JPanel{
         p1.add(form);
         
         
+        JPanel p2 = new JPanel();
         p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
         p2.setPreferredSize(new Dimension(100, 300));
+        p2.add(new JScrollPane(result));
         
         JPanel p3 = new JPanel();
         p3.setLayout(new BoxLayout(p3,BoxLayout.LINE_AXIS));
@@ -89,8 +91,8 @@ public class PanelRoomsList extends JPanel{
       public void actionPerformed(ActionEvent e)
       {
         //on supprimme tout
-        p2.removeAll();
-        p2.validate();
+        result.removeAll();
+        result.validate();
         
         try {
               //on crée notre tableau
@@ -108,9 +110,11 @@ public class PanelRoomsList extends JPanel{
         tableau.setAutoCreateRowSorter(true);
 
         //on l'affiche en l'ajoutant au panel
-        p2.add(new JScrollPane(tableau));
-        p2.revalidate();
-        p2.repaint();
+        result.setLayout(new BorderLayout());
+        result.add(tableau.getTableHeader(),BorderLayout.NORTH);
+        result.add(tableau);
+        result.revalidate();
+        result.repaint();
           
       }
   }
