@@ -71,6 +71,7 @@ public class ReportingEmployee extends JPanel{
         tableau = new JTable(r.reportingNurse(),r.tableColumnsName());
         tableau.setAutoCreateRowSorter(true);
 
+        result.setLayout(new BorderLayout());
         
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.PAGE_AXIS));

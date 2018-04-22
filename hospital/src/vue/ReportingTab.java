@@ -24,25 +24,23 @@ public class ReportingTab extends JPanel{
     private JPanel provisoire2,provisoire3;
     private ReportingEmployee reportingEmployee;
     private ReportingDoctor reportingDoctor;
+    private ReportingRoom reportingRoom;
     
     public ReportingTab(Connexion con) throws SQLException, ClassNotFoundException
     {
         this.con = con;
         reportingEmployee = new ReportingEmployee(con);
         reportingDoctor = new ReportingDoctor(con);
-        
-        
-        provisoire3 = new JPanel();
-        provisoire3.setBackground(Color.BLUE);
+        reportingRoom = new ReportingRoom(con);
         
         types = new JTabbedPane();
         
         this.setBackground(Color.LIGHT_GRAY);
         this.setLayout(new GridLayout(1,1));
         
-        types.addTab("onglet1",reportingEmployee);
-        types.addTab("onglet2",reportingDoctor);
-        types.addTab("onglet3",provisoire3);
+        types.addTab("Infirmiers",reportingEmployee);
+        types.addTab("Docteurs",reportingDoctor);
+        types.addTab("Chambres",reportingRoom);
         
         this.add(types);
         

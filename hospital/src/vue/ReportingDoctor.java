@@ -32,6 +32,7 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.StackedXYBarRenderer;
 import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.DefaultTableXYDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.ui.ApplicationFrame;
@@ -70,7 +71,8 @@ public class ReportingDoctor extends JPanel{
 
         tableau = new JTable(r.reportingDoctor(),r.tableColumnsName());
         tableau.setAutoCreateRowSorter(true);
-
+        
+        result.setLayout(new BorderLayout());
         
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1,BoxLayout.PAGE_AXIS));
@@ -97,6 +99,49 @@ public class ReportingDoctor extends JPanel{
         
     }
     
+    public ChartPanel effectifPatients() throws SQLException, ClassNotFoundException
+    {
+       DefaultCategoryDataset dataset=new DefaultCategoryDataset();
+        
+            for(int j=0;j<r.reportingDoctor().length;j++)
+            {
+                dataset.addValue( Integer.parseInt(r.reportingDoctor()[j][2]) , "malade", r.reportingDoctor()[j][0]);
+                dataset.addValue( Integer.parseInt(r.reportingDoctor()[j][1]) , "docteur", r.reportingDoctor()[j][0]);
+                
+            }
+        
+         barChart = ChartFactory.createBarChart(
+         "Nombre de patients et de docteurs",           
+         "Spécialité",            
+         "Effectif",            
+         dataset,          
+         PlotOrientation.VERTICAL,           
+         true, true, false);
+        
+        chartPanel = new ChartPanel( barChart );        
+        chartPanel.setPreferredSize(new java.awt.Dimension( 400, 400 ) );        
+        return chartPanel; 
+    }
+    
+
+    
+    public ChartPanel employeeWorkforce() throws SQLException, ClassNotFoundException
+    {
+       DefaultPieDataset dataset=new DefaultPieDataset();
+        
+            dataset.setValue("Docteurs", Double.parseDouble(r.reportingEmployee()[0][1]));                
+            dataset.setValue("Infirmiers", Double.parseDouble(r.reportingEmployee()[0][0]));
+        
+         barChart = ChartFactory.createPieChart(
+         "Pourcentage répartition employés",                      
+         dataset,                    
+         true, true, false);
+        
+        chartPanel = new ChartPanel( barChart );        
+        chartPanel.setPreferredSize(new java.awt.Dimension( 400, 400 ) );        
+        return chartPanel; 
+    }
+    
     class BoutonListener implements ActionListener{
       @Override
       public void actionPerformed(ActionEvent e)
@@ -104,7 +149,22 @@ public class ReportingDoctor extends JPanel{
         //on supprimme tout
         result.removeAll();
         result.validate();
-          System.out.println("coucou");
+         
+        try {
+            if(e.getSource()==but[0])
+            {
+                result.add(effectifPatients());
+            }
+            else if(e.getSource()==but[1])
+            {
+                result.add(employeeWorkforce());
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(ReportingDoctor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ReportingDoctor.class.getName()).log(Level.SEVERE, null, ex);
+        }
         result.revalidate();
         result.repaint();
           
