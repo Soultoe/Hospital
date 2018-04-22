@@ -142,7 +142,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingDoctor() throws SQLException, ClassNotFoundException
     {
-        //cette requête retourne tout
+        //cette requête retourne le nombre de docteurs et de malades par spé, et la moyenne du nombre de malades par docteurs par spé
         requete =  "select d.specialite, count(d.specialite) as \"effectif\", nb_malades as \"malades\", nb_malades/count(d.specialite) as \"mal/doc\" from docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m where d.specialite = m.specialite group by d.specialite";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -157,6 +157,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingEmployee() throws SQLException, ClassNotFoundException
     {
+        //cette requête permet d'obtenir l'effectif total d'infirmiers et de docteurs dans l'hôpital
         requete="SELECT nb_inf, nb_doc from (SELECT count(DISTINCT numero) as nb_doc from docteur) d inner join (SELECT count(DISTINCT numero) as nb_inf from infirmier) i";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -171,6 +172,7 @@ public class Reporting extends Action {
      */
     public String[][] roomsAndBedsAvaibility() throws SQLException, ClassNotFoundException
     {
+        //cette requête permet d'obtenir le nombre de chambres et de lits occupés, totaux et libres
         requete="select batiment, nom, count(c.no_chambre), sum(nb_lits), ch_occupee, (count(c.no_chambre)-ch_occupee), lit_occupe, sum(nb_lits)-lit_occupe from chambre c, service, (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h where code = c.code_service and (h.code_service = c.code_service) group by batiment, c.code_service";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 
@@ -185,6 +187,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingRoom() throws SQLException, ClassNotFoundException
     {
+        //cette requête retourne le batiment, nom du service, total chambres, total lts, chambres et lits occupés, et nombre de surveillants / service
         requete="select batiment as bat, nom, count(c.no_chambre) as totCh, sum(nb_lits) as totLits, ch_occupee as \"chOccupées\", lit_occupe as \"litOccupé\", nb_sur nbSurv from service INNER JOIN chambre c ON code = c.code_service INNER JOIN (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h ON h.code_service = c.code_service INNER JOIN (select code_service, count(DISTINCT surveillant) as nb_sur from chambre group by code_service) as sur ON sur.code_service = c.code_service group by batiment, c.code_service";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 

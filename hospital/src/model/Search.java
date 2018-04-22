@@ -106,9 +106,9 @@ public class Search extends Action{
      */
     public String[][] SearchRoom(String building, String department, String bedNumber, String roomNumber,  String warden ) throws  SQLException, ClassNotFoundException
     { 
-        select = "batiment as \"bat\" , code_service as \"service\", no_chambre as \"n°chambre\", concat(employe.numero, \" | \",employe.nom, \" \",employe.prenom) as surveillant, nb_lits as \"lit\"";
-        from = "chambre, employe, service";
-        where = "numero = surveillant AND code_service = service.code AND batiment like '%"+building+"%' AND code_service like '%"+department+"%' AND concat(employe.nom, \" \",employe.prenom) like '%"+warden+"%' AND no_chambre like '%"+roomNumber+"%' AND nb_lits like '%"+bedNumber+"%' ORDER BY batiment, code_service, no_chambre";
+        select = "batiment as \"bat\" , concat(dirnom, \" \", dirprenom) as Directeur, code_service as \"service\", no_chambre as \"n°chambre\", concat(employe.numero, \" | \",employe.nom, \" \",employe.prenom) as surveillant, nb_lits as \"lit\"";
+        from = "chambre, employe, service, (select code, employe.nom as dirnom, prenom as dirprenom from service, employe where directeur = numero) dir";
+        where = "numero = surveillant AND code_service = service.code and dir.code =code_service AND batiment like '%"+building+"%' AND code_service like '%"+department+"%' AND concat(employe.nom, \" \",employe.prenom) like '%"+warden+"%' AND no_chambre like '%"+roomNumber+"%' AND nb_lits like '%"+bedNumber+"%' ORDER BY batiment, code_service, no_chambre";
         
         return this.convertToString(SearchWithWhere());
     }
