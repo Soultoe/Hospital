@@ -126,12 +126,12 @@ public class Search extends Action{
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public String[][] SearchDoctor(String speciality, String patient, String firstName, String lastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
+    public String[][] SearchDoctor(String speciality, String patient, String ID, String firstLastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
     {
        //parce que soit on cherche une liste de docteurs toute seule, soit on cherche une liste de docteurs par patients et c'est pas la même
        String selectPatient, fromPatient, wherePatient, wherePatientsNumberMax;
      
-       if((patient.length()!=0)||(firstName.length()!=0)||(lastName.length()!=0))
+       if((patient.length()!=0)||(firstLastName.length()!=0)||(ID.length()!=0))
        {
            selectPatient =" concat(m.numero, \" | \",m.nom, \" \",m.prenom) as Patient, ";
            fromPatient=" INNER JOIN soigne s ON d.numero=s.no_docteur INNER JOIN malade m ON m.numero = no_malade  ";
@@ -153,9 +153,9 @@ public class Search extends Action{
            wherePatientsNumberMax=" ";
        }
        
-       select ="e.numero as ID, e.nom as \"nom\", e.prenom as \"prenom\", specialite as \"spécialité\","+selectPatient+"nb_patients, replace(e.adresse, ',', ';') as \"adresse\", e.tel as \"tel\"";
+       select ="e.numero as ID, concat(e.nom, \" \", e.prenom) as Docteur, specialite as \"spécialité\","+selectPatient+"nb_patients, replace(e.adresse, ',', ';') as \"adresse\", e.tel as \"tel\"";
        from ="employe e INNER JOIN docteur d ON e.numero = d.numero "+fromPatient+" INNER JOIN (SELECT COUNT(no_malade) as nb_patients, no_docteur FROM soigne group by no_docteur) cmp ON cmp.no_docteur = e.numero ";
-       where = wherePatient+" e.nom like '%"+lastName+"%' and e.prenom like '%"+firstName+"%' and specialite like '%"+speciality+"%' and nb_patients > '"+patientsNumberMin+"%'"+wherePatientsNumberMax;
+       where = wherePatient+" e.numero like '%"+ID+"%' and concat(e.nom, \" \", e.prenom) like '%"+firstLastName+"%' and specialite like '%"+speciality+"%' and nb_patients > '"+patientsNumberMin+"%'"+wherePatientsNumberMax;
            
        return convertToString(this.SearchWithWhere());
     }
@@ -169,12 +169,12 @@ public class Search extends Action{
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public String[][] SearchNurse(String department, String rotation, String lastName, String firstName) throws SQLException, ClassNotFoundException
+    public String[][] SearchNurse(String department, String rotation, String ID, String firstLastName) throws SQLException, ClassNotFoundException
     {
         
-        select="i.numero as ID, nom, prenom, code_service as \"service\", rotation, replace(adresse, ',', ';') as \"adresse\", tel, salaire";
+        select="i.numero as ID, concat(nom, \" \", prenom) as Infirmier, code_service as \"service\", rotation, replace(adresse, ',', ';') as \"adresse\", tel, salaire";
         from ="infirmier i inner join employe e on i.numero = e.numero";
-        where = "nom like '%"+lastName+"%' and prenom like '%"+firstName+"%' and code_service like '%"+department+"%' and rotation like '%"+rotation+"%'";
+        where = "i.numero like '%"+ID+"%' and concat(nom, \" \", prenom) like '%"+firstLastName+"%' and code_service like '%"+department+"%' and rotation like '%"+rotation+"%'";
        
         return convertToString(this.SearchWithWhere());
     }
@@ -191,19 +191,19 @@ public class Search extends Action{
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public String[][] SearchPatient(String lastName, String firstName, String mutual, String department, String roomNumber, String bedNumber, String doctor) throws SQLException, ClassNotFoundException
+    public String[][] SearchPatient(String ID, String firstLastName, String mutual, String department, String roomNumber, String bedNumber, String doctor) throws SQLException, ClassNotFoundException
     {
-        if((doctor.length()!=0)||(firstName.length()!=0)||(lastName.length()!=0))
+        if((doctor.length()!=0)||(firstLastName.length()!=0)||(ID.length()!=0))
         {
-            select ="m.numero as ID, m.nom as \"nom\",m.prenom as \"prenom\",replace(m.adresse, ',', ';') as \"adresse\",m.tel as \"tel\",m.mutuelle as \"mutuelle\", code_service as \"service\", no_chambre as \"n°chambre\", lit, concat(e.numero, \" | \",e.nom, \" \", e.prenom) as docteur";
+            select ="m.numero as ID, concat(m.nom, \" \", m.prenom) as Patient,replace(m.adresse, ',', ';') as \"adresse\",m.tel as \"tel\",m.mutuelle as \"mutuelle\", code_service as \"service\", no_chambre as \"n°chambre\", lit, concat(e.numero, \" | \",e.nom, \" \", e.prenom) as docteur";
             from="malade m INNER JOIN hospitalisation h ON m.numero = h.no_malade INNER JOIN soigne s ON m.numero = s.no_malade INNER JOIN employe e on s.no_docteur = e.numero";
-            where=" m.numero = s.no_malade AND m.numero = h.no_malade AND m.nom LIKE '%"+lastName+"%' AND m.prenom LIKE '%"+firstName+"%' AND m.mutuelle LIKE '%"+mutual+"%' AND code_service LIKE '%"+department+"%' AND no_chambre LIKE '%"+roomNumber+"%' AND lit LIKE '%"+bedNumber+"%' AND concat(e.nom, \" \", e.prenom) LIKE '%"+doctor+"%'";
+            where=" m.numero = s.no_malade AND m.numero = h.no_malade AND m.numero LIKE '%"+ID+"%' AND concat(m.nom, \" \", m.prenom) LIKE '%"+firstLastName+"%' AND m.mutuelle LIKE '%"+mutual+"%' AND code_service LIKE '%"+department+"%' AND no_chambre LIKE '%"+roomNumber+"%' AND lit LIKE '%"+bedNumber+"%' AND concat(e.nom, \" \", e.prenom) LIKE '%"+doctor+"%'";
         }
         else
         {
-            select ="m.numero as ID, m.nom as \"nom\",m.prenom as \"prenom\",replace(m.adresse, ',', ';') as \"adresse\",m.tel as \"tel\",m.mutuelle as \"mutuelle\", code_service as \"service\", no_chambre as \"n°chambre\", lit";
+            select ="m.numero as ID, concat(m.nom, \" \", m.prenom) as Patient,replace(m.adresse, ',', ';') as \"adresse\",m.tel as \"tel\",m.mutuelle as \"mutuelle\", code_service as \"service\", no_chambre as \"n°chambre\", lit";
             from="malade m INNER JOIN hospitalisation h ON m.numero = h.no_malade";
-            where="m.nom LIKE '%"+lastName+"%' AND m.prenom LIKE '%"+firstName+"%' AND m.mutuelle LIKE '%"+mutual+"%' AND code_service LIKE '%"+department+"%' AND no_chambre LIKE '%"+roomNumber+"%' AND lit LIKE '%"+bedNumber+"%'";
+            where="m.numero LIKE '%"+ID+"%' AND concat(m.nom, \" \", m.prenom) LIKE '%"+firstLastName+"%' AND m.mutuelle LIKE '%"+mutual+"%' AND code_service LIKE '%"+department+"%' AND no_chambre LIKE '%"+roomNumber+"%' AND lit LIKE '%"+bedNumber+"%'";
         }
      
        return this.convertToString(SearchWithWhere());

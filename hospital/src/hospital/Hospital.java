@@ -32,14 +32,10 @@ public class Hospital {
         String nameDatabase = "Hopital";
         String loginDatabase = "root";
         String passwordDatabase = "";   
-                  
-        //ICI ANACHAT
-        DefaultPieDataset dataset = new DefaultPieDataset();
-        
+                          
         try
         {
             //distant
-            //Connexion con1 = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
             //Connexion distantCon = new Connexion(usernameECE, passwordECE, loginDatabaseECE, passwordDatabaseECE);
             Connexion distantCon = new Connexion(nameDatabase, loginDatabase, passwordDatabase); //CAREFUL THIS IS A LOCAL CONNEXION BUT I PUT IT LIKE THIS IN DISTANT CUZ DISTANT DOES NOT WORK
 
@@ -48,10 +44,7 @@ public class Hospital {
             Connexion localCon = new Connexion(nameDatabase, loginDatabase, passwordDatabase);
             
             //Fenetre
-            Search search = new Search(localCon);
             Frame fen = new Frame(localCon,distantCon);
-            //Reporting report = new Reporting(con);
-            //report.toutesMesRequetesSqlaSupprimierPlusTard();
 
         }
         catch(ClassNotFoundException | SQLException e)

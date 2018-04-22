@@ -27,7 +27,7 @@ public class PanelEmployeeList extends JPanel {
     //champs d'entrée de texte
     private final JFormattedTextField tab[] = new JFormattedTextField[fieldsNumber];
     private final TextPrompt tp[] = new TextPrompt[fieldsNumber];
-    private final String txt[] = {"Nom", "Prénom", "Spécialité du docteur", "Patient du docteur", "Département de l'infirmier", "Nombre de patients min", "Nombre de patients max"};
+    private final String txt[] = {"Prenom Nom", "ID", "Spécialité du docteur", "Patient du docteur", "Département de l'infirmier", "Nombre de patients min", "Nombre de patients max"};
 
     //sélection de texte pour la rotation de l'infirmier
     private final String rot[] = {"", "JOUR", "NUIT"};
