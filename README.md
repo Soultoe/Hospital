@@ -1,4 +1,6 @@
 # Hospital
 
-#coucou
-First commit of the project --> 07/04
+#Sources du projet
+
+- https://tips4java.wordpress.com/2009/11/29/text-prompt/ --> class TextPrompt
+- https://openclassrooms.com/courses/apprenez-a-programmer-en-java --> Swing
