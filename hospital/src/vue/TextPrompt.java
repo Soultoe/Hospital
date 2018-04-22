@@ -4,6 +4,7 @@
 J'AI TROUVE CE CODE SUR INTERNET
 C'EST TEMPORAIRE
 Je changerai ça après, je veux juste voir comment ça fonctionne. :3
+Je vais faire une commit qui le cite.
 
 Copyright : https://tips4java.wordpress.com/2009/11/29/text-prompt/
 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
