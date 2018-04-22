@@ -115,12 +115,40 @@ public class Update extends Action {
      * @throws SQLException 
      */
     public String buildRequestRoom(String[] fields) throws SQLException {
+
+        boolean[] emptyFields = new boolean[fields.length];
+        for (int i=0;i<fields.length;i++) {
+            if (fields[i].equals("")) {
+                emptyFields[i] = false;
+            }
+            else
+                emptyFields[i] = true   ;
+        }
+        
+        String no_chambre,surveillant,nb_lits; no_chambre = surveillant = nb_lits = "";
+        
+        if(emptyFields[2])
+            if(emptyFields[3])
+                surveillant = "surveillant = " + fields[2] + ", ";
+            else
+                surveillant = "surveillant = " + fields[2];
+        if(emptyFields[3])
+            nb_lits = "nb_lits = " + fields[3];
+
         try {
-            String request = "UPDATE chambre SET no_chambre = " + fields[1] + ", surveillant = " + fields[2] + ", nb_lits = " + fields[3] + " WHERE code_service = '" + fields[0] + "';";
-            System.out.println(request);
-            this.getUpdate(request);
-            return "Mise à Jour Réussie!";
+            
+            if("".equals(surveillant)&&"".equals(nb_lits))
+                return "Remplissez au moins le champ Survaillant ou le nombre de lit pour qu'un changement soit possible."; 
+            else
+            {
+                String request = "UPDATE chambre SET " + surveillant + nb_lits + " WHERE code_service = '" + fields[0] + "' AND no_chambre = " + fields[1] + ";";
+                System.out.println(request);
+                this.getUpdate(request);
+                return "Mise à Jour Réussie!";
+            }
+
         } catch (SQLException e) {
+
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
 
