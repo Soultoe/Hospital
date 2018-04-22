@@ -97,11 +97,37 @@ public class Update extends Action {
      * @throws SQLException 
      */
     public String buildRequestDepartment(String[] fields) throws SQLException {
+        
+        boolean[] emptyFields = new boolean[fields.length];
+        for (int i=0;i<fields.length;i++) {
+            if (fields[i].equals("")) {
+                emptyFields[i] = false;
+            }
+            else
+                emptyFields[i] = true   ;
+        }
+        
+        String batiment,directeur; batiment = directeur = "";
+        
+        if(emptyFields[2])
+            if(emptyFields[3])
+                batiment = "batiment = '" + fields[2] + "', ";
+            else
+                batiment = "batiment = '" + fields[2] + "'";
+        if(emptyFields[3])
+            directeur = "directeur = " + fields[3];
+        
         try {
-            String request = "UPDATE service SET nom = '" + fields[1] + "', batiment = '" + fields[2] + "', directeur = '" + fields[3] + "' WHERE code = '" + fields[0] + "';";
-            System.out.println(request);
-            this.getUpdate(request);
-            return "Mise à Jour Réussie!";
+
+            if ("".equals(batiment) && "".equals(directeur)) {
+                return "Remplissez au moins le champ batiment ou directeur pour qu'un changement soit possible.";
+            } else {
+
+                String request = "UPDATE service SET " + batiment + directeur + " WHERE code = '" + fields[0] + "' AND nom = '" + fields[1] + "';";
+                System.out.println(request);
+                this.getUpdate(request);
+                return "Mise à Jour Réussie!";
+            }
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
@@ -125,7 +151,7 @@ public class Update extends Action {
                 emptyFields[i] = true   ;
         }
         
-        String no_chambre,surveillant,nb_lits; no_chambre = surveillant = nb_lits = "";
+        String surveillant,nb_lits; surveillant = nb_lits = "";
         
         if(emptyFields[2])
             if(emptyFields[3])
@@ -138,7 +164,7 @@ public class Update extends Action {
         try {
             
             if("".equals(surveillant)&&"".equals(nb_lits))
-                return "Remplissez au moins le champ Survaillant ou le nombre de lit pour qu'un changement soit possible."; 
+                return "Remplissez au moins le champ Surveillant ou le nombre de lit pour qu'un changement soit possible."; 
             else
             {
                 String request = "UPDATE chambre SET " + surveillant + nb_lits + " WHERE code_service = '" + fields[0] + "' AND no_chambre = " + fields[1] + ";";
