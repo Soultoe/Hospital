@@ -97,21 +97,96 @@ public class Update extends Action {
             emptyFields[i] = !fields[i].equals("");
         }
         
+        String adresse,tel,mutuelle; adresse = tel = mutuelle = "";
+        
+        if(emptyFields[3])
+        {
+            if(emptyFields[4]||emptyFields[5])
+            {
+                adresse = "adresse = '" + fields[3] + "', ";
+            }
+            else
+            {
+                adresse = "adresse = '" + fields[3] + "'";
+            } 
+        }
+        if(emptyFields[4])
+        {
+            if(emptyFields[5])
+            {
+                tel = "tel = '" + fields[4] + "', ";
+            }
+            else
+            {
+                tel = "tel = '" + fields[4] + "'";
+            }
+        }
+        if(emptyFields[5])
+        {
+            mutuelle = "mutuelle = '" + fields[5] + "'";
+        }
+        
+        ///
+        /// SEPARATION !!!!!!!!!!!!!!!!!!!!!!!!!!!
+        ///
+        
+        String dept,room,bed; dept = room = bed = "";
+        
+        if(emptyFields[7])
+        {
+            if(emptyFields[8]||emptyFields[9])
+            {
+                dept = "code_service = '" + fields[7] + "', ";
+            }
+            else
+            {
+                dept = "code _service = '" + fields[7] + "'";
+            } 
+        }
+        if(emptyFields[8])
+        {
+            if(emptyFields[9])
+            {
+                room = "no_chambre = " + fields[8] + ", ";
+            }
+            else
+            {
+                room = "no_chambre = " + fields[8];
+            }
+        }
+        if(emptyFields[9])
+        {
+            bed = "lit = " + fields[9];
+        }
+        
+        ///
+        /// SEPARATION !!!!!!!!!!!!
+        ///
+        
         try {
-            String patient = "UPDATE malade SET nom = '" + fields[1] + "', prenom = '" + fields[2] + "', adresse = '" + fields[3] + "', tel = '" + fields[4] + "', mutuelle = '" + fields[5] + "' WHERE numero = " + fields[0] + ";";
-            String heal = "UPDATE soigne SET no_docteur = '" + fields[6] + "' WHERE no_malade = " + fields[0] + ";";
-            String hospitalize = "UPDATE hospitalisation SET code_service = '" + fields[7] + "', " + fields[8] + ", " + fields[9] + " WHERE no_malade = " + fields[0] + ";";
+            
+            if("".equals(adresse)&&"".equals(tel)&&"".equals(mutuelle))
+            {
+                return "veuillez entrer une nouvelle adresse, un nouveau telephone ou une nouvelle mutuelle.";
+            }
+            else {
+                String patient = "UPDATE malade SET " + adresse + tel + mutuelle + " WHERE numero = " + fields[0] + ";";
+                String heal = "UPDATE soigne SET no_docteur = " + fields[6] + " WHERE no_malade = " + fields[0] + ";";
+                String hospitalize = "UPDATE hospitalisation SET " + dept + room + bed + " WHERE no_malade = " + fields[0] + ";";
 
-            System.out.println(patient);
-            System.out.println(heal);
-            System.out.println(hospitalize);
+                System.out.println(patient);
+                System.out.println(heal);
+                System.out.println(hospitalize);
 
-            this.getUpdate(patient);
-            this.getUpdate(heal);
-            this.getUpdate(hospitalize);
-
-            return "Mise à Jour Réussie!";
-        } catch (SQLException e) {
+                this.getUpdate(patient);
+                
+                if(emptyFields[6])
+                    this.getUpdate(heal);
+                if(emptyFields[7]||emptyFields[8]||emptyFields[9])  
+                    this.getUpdate(hospitalize);
+                return "Mise à Jour Réussie!";
+            }
+        } catch (Exception e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
 

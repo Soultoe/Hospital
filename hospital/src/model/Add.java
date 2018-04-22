@@ -76,7 +76,7 @@ public class Add extends Action{
      * @throws SQLException 
      */
     public String buildRequestPatients(String[] fields) throws SQLException {
-        try {
+        //try {
             String patient = "INSERT INTO malade(numero,nom,prenom,adresse,tel,mutuelle) VALUES(" + fields[0] + ", '" + fields[1] + "', '" + fields[2] + "', '" + fields[3] + "', '" + fields[4] + "', '" + fields[5] + "');";
             String heal = "INSERT INTO soigne(no_docteur,no_malade) VALUES (" + fields[6] + ", " + fields[0] + ");";
             String hospitalize = "INSERT INTO hospitalisation(no_malade,code_service,no_chambre,lit) VALUES(" + fields[0] + ", '" + fields[7] + "', " + fields[8] + ", " + fields[9] + ");";
@@ -89,9 +89,9 @@ public class Add extends Action{
             this.getRequete(hospitalize);
 
             return "Insertion réussie!";
-        } catch (SQLException e) {
-            return "Votre requête est erronnée, vérifiez vos entrées.";
-        }
+        //} catch (SQLException e) {
+          //  return "Votre requête est erronnée, vérifiez vos entrées.";
+        //}
     }
 
     /**
