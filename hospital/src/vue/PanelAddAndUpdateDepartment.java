@@ -32,20 +32,20 @@ import model.Update;
 public class PanelAddAndUpdateDepartment extends JPanel{
     
     //Contents of the panel and their content
-    private JPanel form;
-    private JButton send;
-    private JTextField results;
+    private final JPanel form;
+    private final JButton send;
+    private final JTextField results;
     private JCheckBox update,add;
-    private String[] fields;
+    private final String[] fields;
     
     //text fields and their preset text
-    private JFormattedTextField[] commons;
-    private String[] commonNames = {"code","name","building","director"};
-    private TextPrompt[] tp = new TextPrompt[commonNames.length];
+    private final JFormattedTextField[] commons;
+    private final String[] commonNames = {"code","name","building","director"};
+    private final TextPrompt[] tp = new TextPrompt[commonNames.length];
     
     //objects used to send requests to the database
-    private Update updateObj;
-    private Add addObj;
+    private final Update updateObj;
+    private final Add addObj;
     
     /**
      * 

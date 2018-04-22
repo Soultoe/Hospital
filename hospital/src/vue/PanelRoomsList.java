@@ -41,6 +41,8 @@ public class PanelRoomsList extends JPanel {
      * @param r
      */
     public PanelRoomsList(Search r) {
+        
+        //init of objects
         this.setBackground(Color.LIGHT_GRAY);
         this.r = r;
         this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
@@ -66,6 +68,7 @@ public class PanelRoomsList extends JPanel {
             tp[i].changeStyle(Font.ITALIC);
         }
 
+        //creation of layout
         JPanel p1 = new JPanel();
         p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
         p1.add(form);

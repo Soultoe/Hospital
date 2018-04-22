@@ -40,6 +40,7 @@ public class Update extends Action {
      */
     public String buildRequestEmployee(boolean dOrN, String[] fields) throws SQLException {
         
+        //check if there are empty fields
         boolean[] emptyFields = new boolean[fields.length];
         for (int i=0;i<fields.length;i++) {
             emptyFields[i] = !fields[i].equals("");
@@ -47,6 +48,7 @@ public class Update extends Action {
         
         String adress,tel; adress = tel = "";
         
+        //create the sql request portion accordingly
         if(emptyFields[3])
             if(emptyFields[4])
                 adress = "adresse = '" + fields[3] + "', ";
@@ -55,6 +57,7 @@ public class Update extends Action {
         if(emptyFields[4])
             tel = "tel = '" + fields[4] + "'";
         
+        // add up the pieces to form the complete request
         try {
             
             if ("".equals(adress) && "".equals(tel)) {
@@ -64,6 +67,7 @@ public class Update extends Action {
                 System.out.println(emp);
                 String type;
 
+                //send the request
                 this.getUpdate(emp);
 
                 if (dOrN) { //means doctor
@@ -92,6 +96,7 @@ public class Update extends Action {
      */
     public String buildRequestPatients(String[] fields) throws SQLException {
         
+        //check if there are empty fields
         boolean[] emptyFields = new boolean[fields.length];
         for (int i=0;i<fields.length;i++) {
             emptyFields[i] = !fields[i].equals("");
@@ -99,6 +104,7 @@ public class Update extends Action {
         
         String adresse,tel,mutuelle; adresse = tel = mutuelle = "";
         
+       //create the sql request portion accordingly
         if(emptyFields[3])
         {
             if(emptyFields[4]||emptyFields[5])
@@ -163,6 +169,7 @@ public class Update extends Action {
         /// SEPARATION !!!!!!!!!!!!
         ///
         
+        // add up the pieces to form the complete request
         try {
             
             if("".equals(adresse)&&"".equals(tel)&&"".equals(mutuelle))
@@ -178,6 +185,7 @@ public class Update extends Action {
                 System.out.println(heal);
                 System.out.println(hospitalize);
 
+                //send the request
                 this.getUpdate(patient);
                 
                 if(emptyFields[6])
@@ -200,6 +208,7 @@ public class Update extends Action {
      */
     public String buildRequestDepartment(String[] fields) throws SQLException {
         
+        //check if there are empty fields
         boolean[] emptyFields = new boolean[fields.length];
         for (int i=0;i<fields.length;i++) {
             emptyFields[i] = !fields[i].equals("");
@@ -207,6 +216,7 @@ public class Update extends Action {
         
         String batiment,directeur; batiment = directeur = "";
         
+        //create the sql request portion accordingly
         if(emptyFields[2])
             if(emptyFields[3])
                 batiment = "batiment = '" + fields[2] + "', ";
@@ -215,6 +225,7 @@ public class Update extends Action {
         if(emptyFields[3])
             directeur = "directeur = " + fields[3];
         
+        // add up the pieces to form the complete request
         try {
 
             if ("".equals(batiment) && "".equals(directeur)) {
@@ -223,6 +234,7 @@ public class Update extends Action {
 
                 String request = "UPDATE service SET " + batiment + directeur + " WHERE code = '" + fields[0] + "' AND nom = '" + fields[1] + "';";
                 System.out.println(request);
+                //send the request
                 this.getUpdate(request);
                 return "Mise à Jour Réussie!";
             }
@@ -240,6 +252,7 @@ public class Update extends Action {
      */
     public String buildRequestRoom(String[] fields) throws SQLException {
 
+        //check if there are empty fields
         boolean[] emptyFields = new boolean[fields.length];
         for (int i=0;i<fields.length;i++) {
             emptyFields[i] = !fields[i].equals("");
@@ -247,6 +260,7 @@ public class Update extends Action {
         
         String surveillant,nb_lits; surveillant = nb_lits = "";
         
+        //create the sql request portion accordingly
         if(emptyFields[2])
             if(emptyFields[3])
                 surveillant = "surveillant = " + fields[2] + ", ";
@@ -255,6 +269,7 @@ public class Update extends Action {
         if(emptyFields[3])
             nb_lits = "nb_lits = " + fields[3];
 
+        // add up the pieces to form the complete request
         try {
             
             if("".equals(surveillant)&&"".equals(nb_lits))
@@ -263,6 +278,7 @@ public class Update extends Action {
             {
                 String request = "UPDATE chambre SET " + surveillant + nb_lits + " WHERE code_service = '" + fields[0] + "' AND no_chambre = " + fields[1] + ";";
                 System.out.println(request);
+                //send the request
                 this.getUpdate(request);
                 return "Mise à Jour Réussie!";
             }
