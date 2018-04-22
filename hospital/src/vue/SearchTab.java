@@ -9,10 +9,7 @@ import model.Search;
 import hospital.Connexion;
 import java.awt.Color;
 import java.sql.SQLException;
-
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -20,14 +17,19 @@ import javax.swing.JTextField;
  */
 public class SearchTab extends JPanel{
     
-    //will be a box Layout
-    
     //contained in this JPanel
     private JPanel form; //will either be a PanelEmployeeList, or a PanelPatients, or a PanelRooms
     
     //non graphic objects needed
     private Search search;
     
+    /**
+     * 
+     * @param type
+     * @param con
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public SearchTab(int type, Connexion con) throws SQLException, ClassNotFoundException
     {
         this.setBackground(Color.LIGHT_GRAY);

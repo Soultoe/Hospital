@@ -33,6 +33,13 @@ public class Add extends Action{
            con.executeUpdate(requete);
     }
     
+    /**
+     * @name buildRequestEmployee
+     * @param dOrN used to know if we are adding a doctor or a nurse
+     * @param fields fields filled by the user with the chosen information
+     * @return the outcome of the operation
+     * @throws SQLException 
+     */
     public String buildRequestEmployee(boolean dOrN, String[] fields) throws SQLException
     {
         String emp = "INSERT INTO employe(numero,nom,prenom,adresse,tel) VALUES(" + fields[0] + ", '" + fields[1] + "', '" + fields[2] + "', '" + fields[3] + "', '" + fields[4] + "');";
@@ -62,6 +69,12 @@ public class Add extends Action{
         
     }
     
+    /**
+     * @name buildRequestPatients
+     * @param fields fields filled by the user with the chosen information
+     * @return the outcome of the operation
+     * @throws SQLException 
+     */
     public String buildRequestPatients(String[] fields) throws SQLException {
         try {
             String patient = "INSERT INTO malade(numero,nom,prenom,adresse,tel,mutuelle) VALUES(" + fields[0] + ", '" + fields[1] + "', '" + fields[2] + "', '" + fields[3] + "', '" + fields[4] + "', '" + fields[5] + "');";
@@ -81,6 +94,12 @@ public class Add extends Action{
         }
     }
 
+    /**
+     * @name buildRequestDepartment
+     * @param fields fields filled by the user with the chosen information
+     * @return the outcome of the operation
+     * @throws SQLException 
+     */
     public String buildRequestDepartment(String[] fields) throws SQLException {
         try {
             String request = "INSERT INTO service(code,nom,batiment,directeur) VALUES ('" + fields[0] + "' ,'" + fields[1] + "' ,'" + fields[2] + "' ,'" + fields[3] + "');";
@@ -92,6 +111,12 @@ public class Add extends Action{
         }
     }
 
+    /**
+     * @name buildRequestRoom
+     * @param fields fields filled by the user with the chosen information
+     * @return the outcome of the operation
+     * @throws SQLException 
+     */
     public String buildRequestRoom(String[] fields) throws SQLException {
         try {
             String request = "INSERT INTO chambre(code_service,no_chambre,surveillant,nb_lits) VALUES ('" + fields[0] + "' ," + fields[1] + " ," + fields[2] + " ," + fields[3] + ");";

@@ -24,6 +24,13 @@ public class Frame extends JFrame {
     private PanelRoot local;
     private PanelRoot distant;
     
+    /**
+     * 
+     * @param localCon
+     * @param distantCon
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public Frame(Connexion localCon, Connexion distantCon) throws SQLException, ClassNotFoundException
     {
         //window setup
@@ -48,10 +55,5 @@ public class Frame extends JFrame {
         //finalisation
         this.setContentPane(connexionType);
         this.setVisible(true);
-//        Search r = new Search(con);
-//        PanelEmployeeList truc = new PanelEmployeeList(r);
-//        
-//        this.setContentPane(truc);
-//        this.setVisible(true);
     }  
 }

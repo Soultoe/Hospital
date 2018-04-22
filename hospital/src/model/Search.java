@@ -26,6 +26,11 @@ public class Search extends Action{
         select = from = where = "";
     }
     
+    /**
+     * @name convertToString
+     * @param SQLresult
+     * @return 
+     */
      public String[][] convertToString(ArrayList SQLresult)
     {
         int nbRows = SQLresult.size();
@@ -46,6 +51,12 @@ public class Search extends Action{
         return values;
     }
      
+    /**
+     * @name tableColumnsName
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[] tableColumnsName() throws SQLException, ClassNotFoundException
     {
         String columnNames = con.remplirChampsTable("SELECT "+select+" FROM "+from).toString().replace("[ ","");

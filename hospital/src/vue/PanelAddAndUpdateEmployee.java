@@ -31,12 +31,14 @@ import javax.swing.border.EmptyBorder;
  */
 public class PanelAddAndUpdateEmployee extends JPanel{
     
+    //Components of the panel and their content
     private JPanel form;
     private JButton send;
     private JTextField results;
     private JCheckBox update,add;
     private String[] fields;
     
+    //Texfields for the user and their names/preset text
     private JFormattedTextField[] commons;
     private String[] commonNames = {"id","name","surname","address","phone"};
     private TextPrompt[] tp = new TextPrompt[commonNames.length];
@@ -44,9 +46,15 @@ public class PanelAddAndUpdateEmployee extends JPanel{
     private String[] specificNames = {"speciality","dept","rotation","wage"};
     private TextPrompt[]tp2 = new TextPrompt[specificNames.length];
     
+    //objects used to send requests to the database
     private Update updateObj;
     private Add addObj;
     
+    /**
+     * 
+     * @param con
+     * @param type 
+     */
     public PanelAddAndUpdateEmployee(Connexion con,int type)
     {
         updateObj = new Update(con);
@@ -176,6 +184,10 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         this.add(p2);
     }
     
+    /**
+     * This function does the request sending and the choosing between adding and updating
+     * @throws SQLException 
+     */
     public void sendRequest() throws SQLException
     {
         for(int i=0;i<fields.length;i++)

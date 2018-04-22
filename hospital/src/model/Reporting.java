@@ -5,7 +5,6 @@
  */
 package model;
 import hospital.*;
-import java.util.Scanner;
 import java.sql.SQLException;
 import java.util.ArrayList;
 /**
@@ -17,11 +16,21 @@ public class Reporting {
     private Connexion con;
     private String requete;
     
+    /**
+     * @name Overload constructor
+     * @param con 
+     */
     public Reporting(Connexion con)
     {
         this.con=con;
     }
     
+    /**
+     * @name tableColumnsName
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[] tableColumnsName() throws SQLException, ClassNotFoundException
     {
         String columnNames = con.remplirChampsTable(requete).toString().replace("[ ","");
@@ -33,13 +42,23 @@ public class Reporting {
     
     
     
-    //cette méthode retourne le résultat d'une requête SQL avec une ou plusieurs conditions WHERE
+    /**
+     * @name searchWithWhere
+     * @return cette méthode retourne le résultat d'une requête SQL avec une ou plusieurs conditions WHERE
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public ArrayList SearchWithWhere() throws SQLException, ClassNotFoundException
     {
         return con.remplirChampsRequete(requete);
     }
     
-    //cette méthode sert à convertir l'ArrayList en une matrice de String à 2 dimensions
+
+    /**
+     * @name convertToString
+     * @param SQLresult
+     * @return cette méthode sert à convertir l'ArrayList en une matrice de String à 2 dimensions
+     */
     public String[][] convertToString(ArrayList SQLresult)
     {
         int nbRows = SQLresult.size();
@@ -63,6 +82,12 @@ public class Reporting {
     
     //I.Employés
     //a. Les infirmiers
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] reportingNurse() throws SQLException, ClassNotFoundException
     {
         requete = "SELECT s.nom as \"service\", nb as \"effectif\", nb_m as \"malades\", moy as \"salaireMoyen\",  rotation, count(rotation) as \"effectifRot\", nb_m/nb as \"mal/inf\" from infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join (SELECT code_service, count(no_malade) as nb_m from hospitalisation group by code_service) cm on cm.code_service = cs.code_service inner join service s on s.code = cs.code_service group by cs.code_service, rotation";
@@ -71,6 +96,12 @@ public class Reporting {
         return finalTab;
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] dayWorkforce() throws SQLException, ClassNotFoundException
     {
         requete = "SELECT s.nom, rotation, count(rotation) from infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join service s on s.code = cs.code_service where rotation='JOUR' group by cs.code_service, rotation";
@@ -79,6 +110,12 @@ public class Reporting {
         return finalTab;
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] nightWorkforce() throws SQLException, ClassNotFoundException
     {
         requete = "select s.nom, rotation, count(rotation) from infirmier inner join (SELECT code_service, avg(salaire) as moy, count(code_service) as nb from infirmier group by code_service) cs on cs.code_service=infirmier.code_service inner join service s on s.code = cs.code_service where rotation='NUIT' group by cs.code_service, rotation";
@@ -87,6 +124,12 @@ public class Reporting {
         return finalTab;
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] reportingDoctor() throws SQLException, ClassNotFoundException
     {
         requete =  "select d.specialite, count(d.specialite) as \"effectif\", nb_malades as \"malades\", nb_malades/count(d.specialite) as \"mal/doc\" from docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m where d.specialite = m.specialite group by d.specialite";
@@ -95,6 +138,12 @@ public class Reporting {
         return finalTab;
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] reportingEmployee() throws SQLException, ClassNotFoundException
     {
         requete="SELECT nb_inf, nb_doc from (SELECT count(DISTINCT numero) as nb_doc from docteur) d inner join (SELECT count(DISTINCT numero) as nb_inf from infirmier) i";
@@ -103,6 +152,12 @@ public class Reporting {
         return finalTab;
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] roomsAndBedsAvaibility() throws SQLException, ClassNotFoundException
     {
         requete="select batiment, nom, count(c.no_chambre), sum(nb_lits), ch_occupee, (count(c.no_chambre)-ch_occupee), lit_occupe, sum(nb_lits)-lit_occupe from chambre c, service, (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h where code = c.code_service and (h.code_service = c.code_service) group by batiment, c.code_service";
@@ -111,6 +166,12 @@ public class Reporting {
         return finalTab;
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] reportingRoom() throws SQLException, ClassNotFoundException
     {
         requete="select batiment as bat, nom, count(c.no_chambre) as totCh, sum(nb_lits) as totLits, ch_occupee as \"chOccupées\", lit_occupe as \"litOccupé\", nb_sur nbSurv from service INNER JOIN chambre c ON code = c.code_service INNER JOIN (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h ON h.code_service = c.code_service INNER JOIN (select code_service, count(DISTINCT surveillant) as nb_sur from chambre group by code_service) as sur ON sur.code_service = c.code_service group by batiment, c.code_service";
@@ -119,6 +180,12 @@ public class Reporting {
         return finalTab;
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] wardenDistribution() throws SQLException, ClassNotFoundException
     {
         requete="select batiment, nom, nb_sur from service INNER JOIN chambre c ON code = c.code_service INNER JOIN (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h ON h.code_service = c.code_service INNER JOIN (select code_service, count(DISTINCT surveillant) as nb_sur from chambre group by code_service) as sur ON sur.code_service = c.code_service group by batiment, c.code_service";
@@ -126,7 +193,12 @@ public class Reporting {
         return finalTab;
     }
     
-    
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public String[][] reportingPatient() throws SQLException, ClassNotFoundException
     {
         requete="select s.nom, count(DISTINCT numero) as patients, count(DISTINCT no_malade) as \"hospitalises\", count(DISTINCT numero)-su.sum as malades, su.sum as totHosp from hospitalisation, service s, malade, (select count(*) as sum from hospitalisation) as su where s.code = code_service group by code_service";

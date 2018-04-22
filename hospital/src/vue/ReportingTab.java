@@ -11,22 +11,26 @@ import java.awt.GridLayout;
 import java.sql.SQLException;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import model.Reporting;
 
 /**
  *
- * @author romain
+ * @author Anastasia
  */
 public class ReportingTab extends JPanel{
     
-    private Connexion con;
-    private JTabbedPane types;
-    private JPanel provisoire2,provisoire3;
-    private ReportingEmployee reportingEmployee;
-    private ReportingDoctor reportingDoctor;
-    private ReportingRoom reportingRoom;
-    private ReportingPatient reportingPatient;
+    private final Connexion con;
+    private final JTabbedPane types;
+    private final ReportingEmployee reportingEmployee;
+    private final ReportingDoctor reportingDoctor;
+    private final ReportingRoom reportingRoom;
+    private final ReportingPatient reportingPatient;
     
+    /**
+     * 
+     * @param con
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public ReportingTab(Connexion con) throws SQLException, ClassNotFoundException
     {
         this.con = con;
@@ -45,8 +49,6 @@ public class ReportingTab extends JPanel{
         types.addTab("Chambres",reportingRoom);
         types.addTab("Patients", reportingPatient);
         this.add(types);
-        
-        //...
     }
     
 }

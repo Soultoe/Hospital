@@ -10,7 +10,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.sql.SQLException;
-
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -18,24 +17,28 @@ import javax.swing.JPanel;
  *
  * @author romain
  */
-public class PanelRoot extends JPanel{
-    
-    private PanelWork workPane;
-    private JButton quit;
-    //will be a border layout
-    
-    public PanelRoot(Connexion con) throws SQLException, ClassNotFoundException
-    {
+public class PanelRoot extends JPanel {
+
+    private final PanelWork workPane;
+    private final JButton quit;
+
+    /**
+     *
+     * @param con
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public PanelRoot(Connexion con) throws SQLException, ClassNotFoundException {
         this.setBackground(Color.LIGHT_GRAY);
-        
+
         workPane = new PanelWork(con);
         quit = new JButton("Quit");
         quit.addActionListener((ActionEvent event) -> {
             System.exit(0);
         });
-        
+
         this.setLayout(new BorderLayout());
-        this.add(workPane,BorderLayout.CENTER);
-        this.add(quit,BorderLayout.SOUTH);
+        this.add(workPane, BorderLayout.CENTER);
+        this.add(quit, BorderLayout.SOUTH);
     }
 }

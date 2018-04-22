@@ -31,6 +31,13 @@ public class Update extends Action {
         con.executeUpdate(requete);
     }
 
+    /**
+     * @name buildRequestEmployee
+     * @param dOrN information about the employee beeing a doctor or a nurse
+     * @param fields the fields filled by the user
+     * @return the outcome of the request
+     * @throws SQLException 
+     */
     public String buildRequestEmployee(boolean dOrN, String[] fields) throws SQLException {
         try {
             String emp = "UPDATE employe SET nom = '" + fields[1] + "', prenom = '" + fields[2] + "', adresse = '" + fields[3] + "', tel = '" + fields[4] + "' WHERE numero = " + fields[0] + ";";
@@ -56,6 +63,12 @@ public class Update extends Action {
 
     }
 
+    /**
+     * @name buildRequestPatients
+     * @param fields the fields filled by the user
+     * @return the outcome of the request
+     * @throws SQLException 
+     */
     public String buildRequestPatients(String[] fields) throws SQLException {
         try {
             String patient = "UPDATE malade SET nom = '" + fields[1] + "', prenom = '" + fields[2] + "', adresse = '" + fields[3] + "', tel = '" + fields[4] + "', mutuelle = '" + fields[5] + "' WHERE numero = " + fields[0] + ";";
@@ -77,6 +90,12 @@ public class Update extends Action {
 
     }
 
+    /**
+     * @name buildRequestDepartment
+     * @param fields the fields filled by the user
+     * @return the outcome of the request
+     * @throws SQLException 
+     */
     public String buildRequestDepartment(String[] fields) throws SQLException {
         try {
             String request = "UPDATE service SET nom = '" + fields[1] + "', batiment = '" + fields[2] + "', directeur = '" + fields[3] + "' WHERE code = '" + fields[0] + "';";
@@ -89,6 +108,12 @@ public class Update extends Action {
 
     }
 
+    /**
+     * @name buildRequestRoom
+     * @param fields the fields filled by the user
+     * @return the outcome of the request
+     * @throws SQLException 
+     */
     public String buildRequestRoom(String[] fields) throws SQLException {
         try {
             String request = "UPDATE chambre SET no_chambre = " + fields[1] + ", surveillant = " + fields[2] + ", nb_lits = " + fields[3] + " WHERE code_service = '" + fields[0] + "';";

@@ -9,64 +9,67 @@ import hospital.Connexion;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.sql.SQLException;
-
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /**
  *
- * @author romain
+ * @author Romain
  */
-public class PanelWork extends JPanel{
-    
-    //this panel will have a gridLayout of 1,2
-    
+public class PanelWork extends JPanel {
+
     //Tab Panels contained in the grid
-    private JTabbedPane search;
-    private JTabbedPane addAndUpdate;
-    
+    private final JTabbedPane search;
+    private final JTabbedPane addAndUpdate;
+
     //in the tab Panels
-    private SearchTab[] searchTabs = new SearchTab[3];
-    private AddAndUpdateTab[] addAndUpdateTabs = new AddAndUpdateTab[5];
-    private ReportingTab reportingTab;
-    
-    public PanelWork(Connexion con) throws SQLException, ClassNotFoundException
-    {
+    private final SearchTab[] searchTabs = new SearchTab[3];
+    private final AddAndUpdateTab[] addAndUpdateTabs = new AddAndUpdateTab[5];
+    private final ReportingTab reportingTab;
+
+    /**
+     *
+     * @param con
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    public PanelWork(Connexion con) throws SQLException, ClassNotFoundException {
         this.setBackground(Color.LIGHT_GRAY);
 
         //TabbedPane init
         addAndUpdate = new JTabbedPane();
         search = new JTabbedPane();
-        
+
         //searchTabs init
-        for(int i=0;i<searchTabs.length;i++)
-            searchTabs[i] = new SearchTab(i,con);
-        
+        for (int i = 0; i < searchTabs.length; i++) {
+            searchTabs[i] = new SearchTab(i, con);
+        }
+
         //add and update tab init
         //will also become an array in due time
-        for(int i=0;i<addAndUpdateTabs.length;i++)
-            addAndUpdateTabs[i] = new AddAndUpdateTab(con,i);
-        
+        for (int i = 0; i < addAndUpdateTabs.length; i++) {
+            addAndUpdateTabs[i] = new AddAndUpdateTab(con, i);
+        }
+
         //reporting Tab init
         reportingTab = new ReportingTab(con);
-        
+
         //LAYOUT AND EMBRICATING PART
-        
-        search.addTab("Employees",searchTabs[0]);
-        search.addTab("Patients",searchTabs[1]);
-        search.addTab("Rooms",searchTabs[2]);
-        search.addTab("Reporting",reportingTab);
-        
-        addAndUpdate.addTab("Doctor",addAndUpdateTabs[0]);
-        addAndUpdate.addTab("Nurse",addAndUpdateTabs[1]);
-        addAndUpdate.addTab("Patient",addAndUpdateTabs[2]);
-        addAndUpdate.addTab("Department",addAndUpdateTabs[3]);
-        addAndUpdate.addTab("Room",addAndUpdateTabs[4]);
-        
-        this.setLayout(new GridLayout(1,2));
+        search.addTab("Employees", searchTabs[0]);
+        search.addTab("Patients", searchTabs[1]);
+        search.addTab("Rooms", searchTabs[2]);
+        search.addTab("Reporting", reportingTab);
+
+        addAndUpdate.addTab("Doctor", addAndUpdateTabs[0]);
+        addAndUpdate.addTab("Nurse", addAndUpdateTabs[1]);
+        addAndUpdate.addTab("Patient", addAndUpdateTabs[2]);
+        addAndUpdate.addTab("Department", addAndUpdateTabs[3]);
+        addAndUpdate.addTab("Room", addAndUpdateTabs[4]);
+
+        this.setLayout(new GridLayout(1, 2));
         this.add(search);
         this.add(addAndUpdate);
-        
+
     }
-    
+
 }

@@ -31,19 +31,26 @@ import model.Update;
  */
 public class PanelAddAndUpdateDepartment extends JPanel{
     
+    //Contents of the panel and their content
     private JPanel form;
     private JButton send;
     private JTextField results;
     private JCheckBox update,add;
     private String[] fields;
     
+    //text fields and their preset text
     private JFormattedTextField[] commons;
     private String[] commonNames = {"code","name","building","director"};
     private TextPrompt[] tp = new TextPrompt[commonNames.length];
     
+    //objects used to send requests to the database
     private Update updateObj;
     private Add addObj;
     
+    /**
+     * 
+     * @param con 
+     */
     public PanelAddAndUpdateDepartment(Connexion con)
     {
         updateObj = new Update(con);
@@ -125,6 +132,10 @@ public class PanelAddAndUpdateDepartment extends JPanel{
         this.add(p2);
     }
     
+    /**
+     * Function used to send request information and choosing if we add or update.
+     * @throws SQLException 
+     */
     public void sendRequest() throws SQLException
     {
         for(int i=0;i<fields.length;i++)

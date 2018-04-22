@@ -13,29 +13,10 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.border.EmptyBorder;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Vector;
-import java.util.Collections;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.*;
-import model.*;
 import org.jfree.chart.*;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.xy.StackedXYBarRenderer;
-import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.jfree.data.xy.DefaultTableXYDataset;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.ui.ApplicationFrame;
-import org.jfree.ui.RefineryUtilities;
 
 /**
  *
@@ -63,6 +44,12 @@ public class ReportingRoom extends JPanel{
     private ChartPanel chartPanel;
     
     
+    /**
+     * 
+     * @param con
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public ReportingRoom(Connexion con) throws SQLException, ClassNotFoundException
     {
         
@@ -109,6 +96,13 @@ public class ReportingRoom extends JPanel{
        
     }
     
+    /**
+     * 
+     * @param service
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public ChartPanel RoomsAvaibility(String service) throws SQLException, ClassNotFoundException       
     {
         DefaultPieDataset dataset=new DefaultPieDataset(); 
@@ -143,6 +137,13 @@ public class ReportingRoom extends JPanel{
         
     }
     
+    /**
+     * 
+     * @param service
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public ChartPanel BedsAvaibility(String service) throws SQLException, ClassNotFoundException       
     {
         DefaultPieDataset dataset=new DefaultPieDataset(); 
@@ -177,6 +178,12 @@ public class ReportingRoom extends JPanel{
         
     }
 
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public ChartPanel WardenDistribution() throws SQLException, ClassNotFoundException{
         
         DefaultPieDataset dataset=new DefaultPieDataset();
@@ -196,6 +203,12 @@ public class ReportingRoom extends JPanel{
         return chartPanel; 
     }
     
+    /**
+     * 
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException 
+     */
     public ChartPanel RoomsandBedsDistribution() throws SQLException, ClassNotFoundException
     {
        DefaultCategoryDataset dataset=new DefaultCategoryDataset();
@@ -221,8 +234,15 @@ public class ReportingRoom extends JPanel{
     }
     
     
+    /**
+     * 
+     */
     class BoutonListener implements ActionListener{
-      @Override
+      /**
+       * 
+       * @param e 
+       */
+        @Override
       public void actionPerformed(ActionEvent e)
       {
         //on supprimme tout
@@ -261,7 +281,11 @@ public class ReportingRoom extends JPanel{
   }
     
       class StateListenerRooms implements ActionListener{
-      @Override
+      /**
+       * 
+       * @param e 
+       */
+          @Override
       public void actionPerformed(ActionEvent e)
       {
           
@@ -282,7 +306,11 @@ public class ReportingRoom extends JPanel{
     }
       
     class StateListenerBeds implements ActionListener{
-    @Override
+    /**
+     * 
+     * @param e 
+     */
+        @Override
     public void actionPerformed(ActionEvent e)
     {
 

@@ -7,10 +7,7 @@ package vue;
 
 import hospital.Connexion;
 import java.awt.Color;
-
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 /**
  *
@@ -20,7 +17,11 @@ public class AddAndUpdateTab extends JPanel{
     
     private JPanel form;
     
-    //will contain
+    /**
+     * 
+     * @param con
+     * @param type 
+     */
     public AddAndUpdateTab(Connexion con, int type)
     {
         this.setBackground(Color.LIGHT_GRAY);

@@ -6,7 +6,6 @@
 package vue;
 
 import hospital.Connexion;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -29,30 +28,33 @@ import model.Update;
  *
  * @author romain
  */
-public class PanelAddAndUpdatePatients extends JPanel{
-    
-    private JPanel form;
-    private JButton send;
-    private JTextField results;
-    private JCheckBox update,add;
-    private String[] fields;
-    
-    private JFormattedTextField[] commons;
-    private String[] commonNames = {"id","name","surname","address","phone","social security","assigned doctor","department","room","bed"};
-    private TextPrompt[] tp = new TextPrompt[commonNames.length];
-    
-    private Update updateObj;
-    private Add addObj;
-    
-    public PanelAddAndUpdatePatients(Connexion con)
-    {
+public class PanelAddAndUpdatePatients extends JPanel {
+
+    private final JPanel form;
+    private final JButton send;
+    private final JTextField results;
+    private JCheckBox update, add;
+    private final String[] fields;
+
+    private final JFormattedTextField[] commons;
+    private final String[] commonNames = {"id", "name", "surname", "address", "phone", "social security", "assigned doctor", "department", "room", "bed"};
+    private final TextPrompt[] tp = new TextPrompt[commonNames.length];
+
+    private final Update updateObj;
+    private final Add addObj;
+
+    /**
+     *
+     * @param con
+     */
+    public PanelAddAndUpdatePatients(Connexion con) {
         updateObj = new Update(con);
         addObj = new Add(con);
-        
+
         results = new JTextField();
-        results.setPreferredSize(new Dimension(100,300));
+        results.setPreferredSize(new Dimension(100, 300));
         form = new JPanel();
-        form.setBorder(new EmptyBorder(50,30,30,30));
+        form.setBorder(new EmptyBorder(50, 30, 30, 30));
         form.setBackground(Color.LIGHT_GRAY);
         send = new JButton("Send");
         send.addActionListener((ActionEvent event) -> {
@@ -62,81 +64,87 @@ public class PanelAddAndUpdatePatients extends JPanel{
                 Logger.getLogger(PanelAddAndUpdateEmployee.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        
+
         add = new JCheckBox("add");
         add.addActionListener((ActionEvent event) -> {
-            if(update.isSelected())
+            if (update.isSelected()) {
                 update.setSelected(false);
-            if(!update.isSelected()&&!add.isSelected())
+            }
+            if (!update.isSelected() && !add.isSelected()) {
                 add.setSelected(true);
+            }
         });
-        
+
         update = new JCheckBox("update");
         update.addActionListener((ActionEvent event) -> {
-            if(add.isSelected())
+            if (add.isSelected()) {
                 add.setSelected(false);
-            if(!update.isSelected()&&!add.isSelected())
+            }
+            if (!update.isSelected() && !add.isSelected()) {
                 add.setSelected(true);
+            }
         });
-        
-        GridLayout g = new GridLayout(5,2);
+
+        GridLayout g = new GridLayout(5, 2);
         //g.setHgap(60); g.setVgap(100);
         form.setLayout(g);
-        
+
         commons = new JFormattedTextField[10];
         fields = new String[commons.length];
-        for(int i=0;i<commons.length;i++){
+        for (int i = 0; i < commons.length; i++) {
             commons[i] = new JFormattedTextField();
             commons[i].setPreferredSize(new Dimension(150, 30));
             //commons[i].setText(commonNames[i]);
             commons[i].setBackground(Color.white);
-            
-            tp[i]=new TextPrompt(commonNames[i], commons[i]);
-            tp[i].setForeground(Color.GRAY );
+
+            tp[i] = new TextPrompt(commonNames[i], commons[i]);
+            tp[i].setForeground(Color.GRAY);
             tp[i].changeStyle(Font.ITALIC);
-            
+
             form.add(commons[i]);
-            
+
         }
-        
-        this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
-        
+
+        this.setLayout(new BoxLayout(this, BoxLayout.PAGE_AXIS));
+
         JPanel p1 = new JPanel();
-        p1.setLayout(new BoxLayout(p1,BoxLayout.LINE_AXIS));
+        p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
         p1.add(form);
-        
+
         JPanel p2 = new JPanel();
-        p2.setLayout(new BoxLayout(p2,BoxLayout.LINE_AXIS));
+        p2.setLayout(new BoxLayout(p2, BoxLayout.LINE_AXIS));
         p2.add(results);
-        
+
         JPanel p3 = new JPanel();
-        p3.setLayout(new BoxLayout(p3,BoxLayout.LINE_AXIS));
+        p3.setLayout(new BoxLayout(p3, BoxLayout.LINE_AXIS));
         p3.add(send);
-        
-        
+
         JPanel p4 = new JPanel();
-        p4.setLayout(new BoxLayout(p4,BoxLayout.LINE_AXIS));
+        p4.setLayout(new BoxLayout(p4, BoxLayout.LINE_AXIS));
         p4.add(add);
         p4.add(update);
-        
+
         this.add(p4);
         this.add(p1);
         this.add(p3);
         this.add(p2);
     }
-    
-    public void sendRequest() throws SQLException
-    {
-        for(int i=0;i<fields.length;i++)
+
+    /**
+     *
+     * @throws SQLException
+     */
+    public void sendRequest() throws SQLException {
+        for (int i = 0; i < fields.length; i++) {
             fields[i] = commons[i].getText();
-        
-        if(add.isSelected())
+        }
+
+        if (add.isSelected()) {
             results.setText(addObj.buildRequestPatients(fields));
-        else if(update.isSelected())
+        } else if (update.isSelected()) {
             results.setText(updateObj.buildRequestPatients(fields));
-        
-        
-        
+        }
+
     }
-    
+
 }
