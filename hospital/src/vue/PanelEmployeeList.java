@@ -141,14 +141,14 @@ public class PanelEmployeeList extends JPanel {
 
             try {
                 if ((infirmier.isSelected() == true) && (doctor.isSelected() == true)) {
-                    employeeList(tab[4].getText(), (String) rotation.getSelectedItem(), tab[2].getText(), tab[3].getText(), tab[1].getText(), tab[0].getText(), tab[5].getText(), tab[6].getText());
+                    employeeList(tab[4].getText(), (String) rotation.getSelectedItem(), tab[2].getText(), tab[3].getText(), tab[0].getText(),tab[1].getText(), tab[5].getText(), tab[6].getText());
                 } else if ((infirmier.isSelected() == true) || (doctor.isSelected() == true)) {
 
                     result.setLayout(new BorderLayout());
                     if (infirmier.isSelected() == true) {
                         tableau = new JTable(r.SearchNurse(tab[4].getText(), (String) rotation.getSelectedItem(), tab[1].getText(), tab[0].getText()), r.tableColumnsName());
                     } else if (doctor.isSelected() == true) {
-                        tableau = new JTable(r.SearchDoctor(tab[2].getText(), tab[3].getText(), tab[1].getText(), tab[0].getText(), tab[5].getText(), tab[6].getText()), r.tableColumnsName());
+                        tableau = new JTable(r.SearchDoctor(tab[2].getText(), tab[3].getText(), tab[0].getText(), tab[1].getText(), tab[5].getText(), tab[6].getText()), r.tableColumnsName());
                     }
 
                     tableau.setRowHeight(20);

@@ -142,6 +142,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingDoctor() throws SQLException, ClassNotFoundException
     {
+        //cette requête retourne tout
         requete =  "select d.specialite, count(d.specialite) as \"effectif\", nb_malades as \"malades\", nb_malades/count(d.specialite) as \"mal/doc\" from docteur d, (select specialite, count(no_malade) as nb_malades from docteur, soigne where numero = no_docteur group by specialite) m where d.specialite = m.specialite group by d.specialite";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
 

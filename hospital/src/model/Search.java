@@ -70,7 +70,6 @@ public class Search extends Action{
     {
         String columnNames = con.remplirChampsTable("SELECT "+select+" FROM "+from).toString().replace("[ ","");
         columnNames = columnNames.replace("\n]","");
-//         String columnNames = con.remplirChampsTable("SELECT "+select+" FROM "+from).toString();
         String title[]=columnNames.split(" ");
         return title;
     }
@@ -126,7 +125,7 @@ public class Search extends Action{
      * @throws SQLException
      * @throws ClassNotFoundException 
      */
-    public String[][] SearchDoctor(String speciality, String patient, String ID, String firstLastName, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
+    public String[][] SearchDoctor(String speciality, String patient, String firstLastName, String ID, String patientsNumberMin, String patientsNumberMax) throws SQLException, ClassNotFoundException
     {
        //parce que soit on cherche une liste de docteurs toute seule, soit on cherche une liste de docteurs par patients et c'est pas la même
        String selectPatient, fromPatient, wherePatient, wherePatientsNumberMax;
