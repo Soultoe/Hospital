@@ -33,11 +33,13 @@ public class Search extends Action{
      */
      public String[][] convertToString(ArrayList SQLresult) throws SQLException, ClassNotFoundException
     {
+        
         int nbRows = SQLresult.size();
         
         String columnValues[];
         String values[][];
         
+        //si la requête retourne quelque chose, alors on stock nos données de l'arraylist dans un String[][]
         if(nbRows !=0)
         {
             int nbColumns=SQLresult.get(0).toString().length() - SQLresult.get(0).toString().replace(",","").length()+1;
@@ -51,6 +53,7 @@ public class Search extends Action{
                 }
             }
         }
+        //on retourne une matrice vide si la requête ne retourne rien
         else
         {
             //on retourne une matrice vide
@@ -68,6 +71,7 @@ public class Search extends Action{
      */
     public String[] tableColumnsName() throws SQLException, ClassNotFoundException
     {
+        //cette fonction sert à récupérer les noms des colonnes de la table résultant de notre requête afin d'en faire des en-têtes pour les JTable
         String columnNames = con.remplirChampsTable("SELECT "+select+" FROM "+from).toString().replace("[ ","");
         columnNames = columnNames.replace("\n]","");
         String title[]=columnNames.split(" ");
@@ -130,12 +134,14 @@ public class Search extends Action{
        //parce que soit on cherche une liste de docteurs toute seule, soit on cherche une liste de docteurs par patients et c'est pas la même
        String selectPatient, fromPatient, wherePatient, wherePatientsNumberMax;
      
+       //si on n'a pas entré le nom d'un patient, ou qu'on recherche pas un docteur par son nom, prénom ou ID on affiche pas le patient, sinon on l'affiche
        if((patient.length()!=0)||(firstLastName.length()!=0)||(ID.length()!=0))
        {
            selectPatient =" concat(m.numero, \" | \",m.nom, \" \",m.prenom) as Patient, ";
            fromPatient=" INNER JOIN soigne s ON d.numero=s.no_docteur INNER JOIN malade m ON m.numero = no_malade  ";
            wherePatient=" concat(m.nom, \" \", m.prenom) like '%"+patient+"%' and";
        }
+       
        else
        {
            selectPatient =" ";
@@ -143,6 +149,7 @@ public class Search extends Action{
            wherePatient=" ";
        }
        
+       //si on ne demande pas de patient max alors on exécute pas le bout de la requête, sinon on l'éxécute
        if(patientsNumberMax.length()!=0)
        {
            wherePatientsNumberMax=" and nb_patients < '"+patientsNumberMax+"%' ";
@@ -192,12 +199,14 @@ public class Search extends Action{
      */
     public String[][] SearchPatient(String ID, String firstLastName, String mutual, String department, String roomNumber, String bedNumber, String doctor) throws SQLException, ClassNotFoundException
     {
+        //si y a pas de docteur d'inscrit, ou qu'on cherche pas un patient par son ID ou nom/prénom alors on affiche pas le docteur
         if((doctor.length()!=0)||(firstLastName.length()!=0)||(ID.length()!=0))
         {
             select ="m.numero as ID, concat(m.nom, \" \", m.prenom) as Patient,replace(m.adresse, ',', ';') as \"adresse\",m.tel as \"tel\",m.mutuelle as \"mutuelle\", code_service as \"service\", no_chambre as \"n°chambre\", lit, concat(e.numero, \" | \",e.nom, \" \", e.prenom) as docteur";
             from="malade m INNER JOIN hospitalisation h ON m.numero = h.no_malade INNER JOIN soigne s ON m.numero = s.no_malade INNER JOIN employe e on s.no_docteur = e.numero";
             where=" m.numero = s.no_malade AND m.numero = h.no_malade AND m.numero LIKE '%"+ID+"%' AND concat(m.nom, \" \", m.prenom) LIKE '%"+firstLastName+"%' AND m.mutuelle LIKE '%"+mutual+"%' AND code_service LIKE '%"+department+"%' AND no_chambre LIKE '%"+roomNumber+"%' AND lit LIKE '%"+bedNumber+"%' AND concat(e.nom, \" \", e.prenom) LIKE '%"+doctor+"%'";
         }
+        //sinon on affiche le docteur
         else
         {
             select ="m.numero as ID, concat(m.nom, \" \", m.prenom) as Patient,replace(m.adresse, ',', ';') as \"adresse\",m.tel as \"tel\",m.mutuelle as \"mutuelle\", code_service as \"service\", no_chambre as \"n°chambre\", lit";

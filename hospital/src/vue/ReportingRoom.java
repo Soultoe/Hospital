@@ -107,6 +107,7 @@ public class ReportingRoom extends JPanel{
     {
         DefaultPieDataset dataset=new DefaultPieDataset(); 
        
+        //selon ce que retourne notre JComboBox on affiche le graphique qui lui correspond
         switch(service)
         {
             case "Cardiologie" :
@@ -148,6 +149,7 @@ public class ReportingRoom extends JPanel{
     {
         DefaultPieDataset dataset=new DefaultPieDataset(); 
        
+        //selon ce que retourne notre JComboBox on affiche le graphique qui lui correspond
         switch(service)
         {
             case "Cardiologie" :
@@ -253,7 +255,6 @@ public class ReportingRoom extends JPanel{
               
               if(e.getSource()==but[0])
               {
-                  
                   result.add(servicesRooms, BorderLayout.NORTH);
               }
               else if(e.getSource()==but[1])

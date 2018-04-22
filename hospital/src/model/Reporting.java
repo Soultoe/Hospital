@@ -202,6 +202,7 @@ public class Reporting extends Action {
      */
     public String[][] wardenDistribution() throws SQLException, ClassNotFoundException
     {
+        //cette requête sort l'effectif des surveillants par service
         requete="select batiment, nom, nb_sur from service INNER JOIN chambre c ON code = c.code_service INNER JOIN (select code_service, no_chambre, count(DISTINCT no_chambre) as ch_occupee, count(lit) as lit_occupe from hospitalisation group by code_service) h ON h.code_service = c.code_service INNER JOIN (select code_service, count(DISTINCT surveillant) as nb_sur from chambre group by code_service) as sur ON sur.code_service = c.code_service group by batiment, c.code_service";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
         return finalTab;
@@ -215,6 +216,7 @@ public class Reporting extends Action {
      */
     public String[][] reportingPatient() throws SQLException, ClassNotFoundException
     {
+        //cette requête sort le nombre de patients total et le nombre d'hospitalisés et non hospitalisés
         requete="select s.nom, count(DISTINCT numero) as patients, count(DISTINCT no_malade) as \"hospitalises\", count(DISTINCT numero)-su.sum as malades, su.sum as totHosp from hospitalisation, service s, malade, (select count(*) as sum from hospitalisation) as su where s.code = code_service group by code_service";
         String finalTab[][]=this.convertToString(this.SearchWithWhere());
         return finalTab;
