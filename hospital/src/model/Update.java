@@ -49,7 +49,7 @@ public class Update extends Action {
                 this.getUpdate(type);
             }
 
-            return emp + " | " + type;
+            return "Mise à Jour Réussie!";
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
@@ -70,7 +70,7 @@ public class Update extends Action {
             this.getUpdate(heal);
             this.getUpdate(hospitalize);
 
-            return patient + " | " + heal;
+            return "Mise à Jour Réussie!";
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
@@ -82,7 +82,7 @@ public class Update extends Action {
             String request = "UPDATE service SET nom = '" + fields[1] + "', batiment = '" + fields[2] + "', directeur = '" + fields[3] + "' WHERE code = '" + fields[0] + "';";
             System.out.println(request);
             this.getUpdate(request);
-            return request;
+            return "Mise à Jour Réussie!";
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
@@ -94,7 +94,7 @@ public class Update extends Action {
             String request = "UPDATE chambre SET no_chambre = " + fields[1] + ", surveillant = " + fields[2] + ", nb_lits = " + fields[3] + " WHERE code_service = '" + fields[0] + "';";
             System.out.println(request);
             this.getUpdate(request);
-            return request;
+            return "Mise à Jour Réussie!";
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }

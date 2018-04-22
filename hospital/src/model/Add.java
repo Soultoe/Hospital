@@ -53,7 +53,7 @@ public class Add extends Action{
                 this.getRequete(type);
             }
         
-            return emp + " | " + type;
+            return "Insertion réussie!";
         }
         catch(SQLException e)
         {
@@ -75,7 +75,7 @@ public class Add extends Action{
             this.getRequete(heal);
             this.getRequete(hospitalize);
 
-            return patient + " | " + heal + " | " + hospitalize;
+            return "Insertion réussie!";
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
@@ -86,7 +86,7 @@ public class Add extends Action{
             String request = "INSERT INTO service(code,nom,batiment,directeur) VALUES ('" + fields[0] + "' ,'" + fields[1] + "' ,'" + fields[2] + "' ,'" + fields[3] + "');";
             System.out.println(request);
             this.getRequete(request);
-            return request;
+            return "Insertion réussie!";
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
@@ -97,7 +97,7 @@ public class Add extends Action{
             String request = "INSERT INTO chambre(code_service,no_chambre,surveillant,nb_lits) VALUES ('" + fields[0] + "' ," + fields[1] + " ," + fields[2] + " ," + fields[3] + ");";
             System.out.println(request);
             this.getRequete(request);
-            return request;
+            return "Insertion réussie!";
         } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
