@@ -26,6 +26,7 @@ public class PanelWork extends JPanel {
     private final SearchTab[] searchTabs = new SearchTab[3];
     private final AddAndUpdateTab[] addAndUpdateTabs = new AddAndUpdateTab[5];
     private final ReportingTab reportingTab;
+    private final DeleteTab deleteTab;
 
     /**
      *
@@ -34,6 +35,7 @@ public class PanelWork extends JPanel {
      * @throws ClassNotFoundException
      */
     public PanelWork(Connexion con) throws SQLException, ClassNotFoundException {
+        
         this.setBackground(Color.LIGHT_GRAY);
 
         //TabbedPane init
@@ -53,6 +55,9 @@ public class PanelWork extends JPanel {
 
         //reporting Tab init
         reportingTab = new ReportingTab(con);
+        
+        //Delete Tab init
+        deleteTab = new DeleteTab(con);
 
         //LAYOUT AND EMBRICATING PART
         search.addTab("Employees", searchTabs[0]);
@@ -65,6 +70,7 @@ public class PanelWork extends JPanel {
         addAndUpdate.addTab("Patient", addAndUpdateTabs[2]);
         addAndUpdate.addTab("Department", addAndUpdateTabs[3]);
         addAndUpdate.addTab("Room", addAndUpdateTabs[4]);
+        addAndUpdate.addTab("Delete", deleteTab);
 
         this.setLayout(new GridLayout(1, 2));
         this.add(search);
