@@ -12,8 +12,7 @@ import java.util.ArrayList;
  * @author User
  */
 //je suis entrain de réflechir à peut être en faire une classe qui hériterait de Search
-public class Reporting {
-    private Connexion con;
+public class Reporting extends Action {
     private String requete;
     
     /**
@@ -22,7 +21,7 @@ public class Reporting {
      */
     public Reporting(Connexion con)
     {
-        this.con=con;
+        super(con);
     }
     
     /**
