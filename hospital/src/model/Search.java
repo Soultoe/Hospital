@@ -31,23 +31,32 @@ public class Search extends Action{
      * @param SQLresult
      * @return 
      */
-     public String[][] convertToString(ArrayList SQLresult)
+     public String[][] convertToString(ArrayList SQLresult) throws SQLException, ClassNotFoundException
     {
         int nbRows = SQLresult.size();
-        int nbColumns=SQLresult.get(0).toString().length() - SQLresult.get(0).toString().replace(",","").length()+1;
-        String columnValues[];
-        String values[][]=new String[nbRows][nbColumns];
         
-        for(int i=0; i<nbRows;i++)
+        String columnValues[];
+        String values[][];
+        
+        if(nbRows !=0)
         {
-            columnValues=SQLresult.get(i).toString().split(",");
-            for(int j=0; j<nbColumns;j++)
+            int nbColumns=SQLresult.get(0).toString().length() - SQLresult.get(0).toString().replace(",","").length()+1;
+            values=new String[nbRows][nbColumns];
+            for(int i=0; i<nbRows;i++)
             {
-               values[i][j]=columnValues[j];
-               
+                columnValues=SQLresult.get(i).toString().split(",");
+                for(int j=0; j<nbColumns;j++)
+                {
+                   values[i][j]=columnValues[j];
+                }
             }
-            
         }
+        else
+        {
+            //on retourne une matrice vide
+            values = new String[1][tableColumnsName().length];
+        }
+            
         return values;
     }
      
