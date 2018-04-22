@@ -186,7 +186,7 @@ public class Update extends Action {
                     this.getUpdate(hospitalize);
                 return "Mise à Jour Réussie!";
             }
-        } catch (Exception e) {
+        } catch (SQLException e) {
             return "Votre requête est erronnée, vérifiez vos entrées.";
         }
 
