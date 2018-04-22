@@ -127,6 +127,13 @@ public class Reporting {
     }
     
     
+    public String[][] reportingPatient() throws SQLException, ClassNotFoundException
+    {
+        requete="select s.nom, count(DISTINCT numero) as patients, count(DISTINCT no_malade) as \"hospitalises\", count(DISTINCT numero)-su.sum as malades, su.sum as totHosp from hospitalisation, service s, malade, (select count(*) as sum from hospitalisation) as su where s.code = code_service group by code_service";
+        String finalTab[][]=this.convertToString(this.SearchWithWhere());
+        return finalTab;
+    }
+    
     
     
     

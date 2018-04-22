@@ -167,7 +167,7 @@ public class ReportingRoom extends JPanel{
         }
         
         barChart = ChartFactory.createPieChart(
-         "Pourcentage répartition surveillants par service",                      
+         "Pourcentage de lis disponibles",                      
          dataset,                    
          true, true, false);
         
@@ -187,7 +187,7 @@ public class ReportingRoom extends JPanel{
         }
         
          barChart = ChartFactory.createPieChart(
-         "Pourcentage répartition surveillants par service",                      
+         "Distribution des surveillants",                      
          dataset,                    
          true, true, false);
         
@@ -208,9 +208,9 @@ public class ReportingRoom extends JPanel{
             }
         
          barChart = ChartFactory.createBarChart(
-         "Salaire moyen d'un infirmier par service",           
-         "Secteur",            
-         "Salaire moyen",            
+         "Nombe de lits et de chambres",           
+         "Service",            
+         "Quantité",            
          dataset,          
          PlotOrientation.VERTICAL,           
          true, true, false);

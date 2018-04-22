@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package vue;
-
 import hospital.Connexion;
 import model.*;
 import javax.swing.*;
@@ -42,14 +41,14 @@ import org.jfree.ui.RefineryUtilities;
  *
  * @author User
  */
-public class ReportingDoctor extends JPanel{
+public class ReportingPatient extends JPanel{
     private final Reporting r;
     private Connexion con;
 
     //bouton pour demander la requête
-    private final String txt_boutons[] = {"Effectif","Répartition employés", "Malades/doc"};
+    private final String txt_boutons[] = {"Effectif","Hospitalisés","Par spécialité"};
     
-    private final JButton but[] = new JButton[txt_boutons.length];
+    private final JButton but[] = new JButton[3];
 
     
     //Table for results
@@ -60,18 +59,19 @@ public class ReportingDoctor extends JPanel{
     private JFreeChart barChart;
     private ChartPanel chartPanel;
     
-    public ReportingDoctor(Connexion con) throws SQLException, ClassNotFoundException
+    
+    public ReportingPatient(Connexion con) throws SQLException, ClassNotFoundException
     {
+        
         this.con=con;
-        r= new Reporting(con);
+        r = new Reporting(con);
         
         this.setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
-       
         this.setBackground(Color.LIGHT_GRAY);
 
-        tableau = new JTable(r.reportingDoctor(),r.tableColumnsName());
+        tableau = new JTable(r.reportingPatient(),r.tableColumnsName());
         tableau.setAutoCreateRowSorter(true);
-        
+
         result.setLayout(new BorderLayout());
         
         JPanel p1 = new JPanel();
@@ -95,23 +95,38 @@ public class ReportingDoctor extends JPanel{
         
         this.add(p1);
         this.add(p3);
-        this.add(p2); 
-        
+        this.add(p2);  
+       
     }
     
-    public ChartPanel doctorWorkforce() throws SQLException, ClassNotFoundException
+   public ChartPanel Division() throws SQLException, ClassNotFoundException
+    {
+      DefaultPieDataset dataset=new DefaultPieDataset();
+        
+            dataset.setValue("Malades", Double.parseDouble(r.reportingPatient()[0][3]));                
+            dataset.setValue("Hospitalisés", Double.parseDouble(r.reportingPatient()[0][4]));
+        
+         barChart = ChartFactory.createPieChart(
+         "Pourcentage d'hospitalisés ou non",                      
+         dataset,                    
+         true, true, false);
+        
+        chartPanel = new ChartPanel( barChart );        
+        chartPanel.setPreferredSize(new java.awt.Dimension( 400, 400 ) );        
+        return chartPanel; 
+    }
+    
+    public ChartPanel Hospitalized()  throws SQLException, ClassNotFoundException
     {
         DefaultPieDataset dataset=new DefaultPieDataset();
         
-           for(int i=0;i<r.reportingDoctor().length;i++)
-           {
-                dataset.setValue(r.reportingDoctor()[i][0], Double.parseDouble(r.reportingDoctor()[i][1]));
-           }
-                           
-            
-        
+        for(int i=0;i<r.reportingPatient().length;i++)
+        {
+            dataset.setValue(r.reportingPatient()[i][0], Double.parseDouble(r.reportingPatient()[i][2]));           
+        }
+
          barChart = ChartFactory.createPieChart(
-         "Pourcentage répartition docteurs",                      
+         "Pourcentage répartition hospitalisés",                      
          dataset,                    
          true, true, false);
         
@@ -120,38 +135,19 @@ public class ReportingDoctor extends JPanel{
         return chartPanel; 
     }
     
-    public ChartPanel nbPatientsperDoc() throws SQLException, ClassNotFoundException
-    {
-       DefaultCategoryDataset dataset=new DefaultCategoryDataset();
-        
-            for(int j=0;j<r.reportingDoctor().length;j++)
-            {
-                dataset.addValue( Double.parseDouble(r.reportingDoctor()[j][3]) , r.reportingDoctor()[j][0], r.reportingDoctor()[j][0]);
-               
-            }
-        
-         barChart = ChartFactory.createBarChart(
-         "Nombre de patients et de docteurs",           
-         "Spécialité",            
-         "Effectif",            
-         dataset,          
-         PlotOrientation.VERTICAL,           
-         true, true, false);
-        
-        chartPanel = new ChartPanel( barChart );        
-        chartPanel.setPreferredSize(new java.awt.Dimension( 400, 400 ) );        
-        return chartPanel; 
-    }
-    
-    public ChartPanel employeeWorkforce() throws SQLException, ClassNotFoundException
+    public ChartPanel doctorSpeciality() throws SQLException, ClassNotFoundException
     {
        DefaultPieDataset dataset=new DefaultPieDataset();
         
-            dataset.setValue("Docteurs", Double.parseDouble(r.reportingEmployee()[0][1]));                
-            dataset.setValue("Infirmiers", Double.parseDouble(r.reportingEmployee()[0][0]));
+       for(int i=0;i<r.reportingDoctor().length;i++)
+       {
+           dataset.setValue(r.reportingDoctor()[i][0], Double.parseDouble(r.reportingDoctor()[i][2]));  
+       }
+                          
+            
         
          barChart = ChartFactory.createPieChart(
-         "Pourcentage répartition employés",                      
+         "Répartion des patients par spé",                      
          dataset,                    
          true, true, false);
         
@@ -159,6 +155,7 @@ public class ReportingDoctor extends JPanel{
         chartPanel.setPreferredSize(new java.awt.Dimension( 400, 400 ) );        
         return chartPanel; 
     }
+    
     
     class BoutonListener implements ActionListener{
       @Override
@@ -167,29 +164,30 @@ public class ReportingDoctor extends JPanel{
         //on supprimme tout
         result.removeAll();
         result.validate();
-         
-        try {
-            if(e.getSource()==but[0])
-            {
-                result.add(doctorWorkforce());
-            }
-            else if(e.getSource()==but[1])
-            {
-                result.add(employeeWorkforce());
-            }
-            else if(e.getSource()==but[2])
-            {
-                result.add(nbPatientsperDoc());
-            }
-
-        } catch (SQLException ex) {
-            Logger.getLogger(ReportingDoctor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ReportingDoctor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+          try {
+              if(e.getSource()==but[0])
+              {
+                  result.add(Division());
+              }
+              else if(e.getSource()==but[1])
+              {
+                  result.add(Hospitalized());
+              }
+              else if(e.getSource()==but[2])
+              {
+                  result.add(doctorSpeciality());
+              }
+              
+          } catch (SQLException ex) {
+              Logger.getLogger(ReportingEmployee.class.getName()).log(Level.SEVERE, null, ex);
+          } catch (ClassNotFoundException ex) {
+              Logger.getLogger(ReportingEmployee.class.getName()).log(Level.SEVERE, null, ex);
+          }
         result.revalidate();
         result.repaint();
           
       }
   }
+    
+   
 }
