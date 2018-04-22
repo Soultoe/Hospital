@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -36,6 +37,7 @@ public class PanelAddAndUpdateEmployee extends JPanel{
     private JButton send;
     private JTextField results;
     private JCheckBox update,add;
+    private JComboBox combo;
     private String[] fields;
     
     //Texfields for the user and their names/preset text
@@ -104,6 +106,17 @@ public class PanelAddAndUpdateEmployee extends JPanel{
         }
         
         if(type==0){
+            
+            combo = new JComboBox();
+            combo.setPreferredSize(new Dimension(150,30));
+            combo.setBackground(Color.white);
+            combo.addItem("Radiologue");
+            combo.addItem("Cardiologue");
+            combo.addItem("Pneumologue");
+            combo.addItem("Anesthesiste");
+            combo.addItem("Orthopediste");
+            combo.addItem("Traumatologue");
+            
             specifics = new JFormattedTextField[1];
             specifics[0] = new JFormattedTextField();
             specifics[0].setPreferredSize(new Dimension(150, 30));
@@ -126,7 +139,7 @@ public class PanelAddAndUpdateEmployee extends JPanel{
                     
                     form.add(commons[i]);
                 else
-                    form.add(specifics[0]);
+                    form.add(combo);
             }
             
         }
@@ -196,7 +209,12 @@ public class PanelAddAndUpdateEmployee extends JPanel{
                 fields[i] = commons[i].getText();
             }
             else {
-                fields[i] = specifics[i-commons.length].getText();
+                if(specifics.length==1)
+                {
+                    fields[i]= (String) combo.getSelectedItem();
+                }
+                else
+                    fields[i] = specifics[i-commons.length].getText();
             }
         }
         
